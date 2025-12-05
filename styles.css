@@ -51,6 +51,10 @@ li {
   cursor: pointer;
 }
 
+li:hover {
+  text-decoration: underline  object-fit: cover; ;
+}
+
 .icons input {
   padding: 5px;
   margin: 35px;
