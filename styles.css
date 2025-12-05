@@ -52,7 +52,7 @@ li {
 }
 
 li:hover {
-  text-decoration: underline;
+  text-decoration: underline  object-fit: cover; ;
 }
 
 .icons input {
