@@ -8,6 +8,10 @@
   font-weight: 800;
 }
 
+body {
+  width: 100%;
+}
+
 .top-nav {
   height: 5vh;
   background-color: #d9d9d9;
@@ -69,10 +73,10 @@ li {
   cursor: pointer;
 }
 
-img {
-  width: 100%;
+.hero img {
   height: 85vh;
   object-fit: cover;
+  width: 140%;
 }
 
 .hero {
