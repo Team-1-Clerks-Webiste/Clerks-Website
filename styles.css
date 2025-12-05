@@ -1,3 +1,7 @@
+@import url("https://fonts.cdnfonts.com/css/nike");
+
+@import url("https://fonts.cdnfonts.com/css/american-captain");
+
 * {
   margin: 0;
   font-family: sans-serif;
@@ -66,7 +70,7 @@ li {
 }
 
 img {
-  width: 150%;
+  width: 138%;
   height: 85vh;
   object-fit: cover;
 }
@@ -81,15 +85,46 @@ img {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+  width: 140px;
+  background-color: black;
+  border-radius: 20px;
+  border: none;
+  color: white;
 }
 
 /* Example placement */
 .hero .learn {
-  top: 60%;
-  left: 10%;
+  top: 50%;
+  left: 70%;
+  transition: ease-in-out 0.3s;
 }
 
 .hero .shop {
-  top: 60%;
-  left: 25%;
+  top: 50%;
+  left: 85%;
+  transition: ease-in-out 0.3s;
+}
+
+.hero .shop:hover {
+  background-color: white;
+  color: black;
+}
+
+.hero .learn:hover {
+  background-color: white;
+  color: black;
+}
+
+.hero h1 {
+  bottom: 50%;
+  left: 70%;
+  position: absolute;
+  color: white;
+  font-size: 7rem;
+  width: 60%;
+  font-family: "American Captain", sans-serif;
+}
+
+.catologue {
+  height: 120vh;
 }
