@@ -16,7 +16,7 @@ nav {
   display: flex;
 }
 
-img {
+nav img {
   width: 100px;
   height: 100px;
   margin-left: 20px;
@@ -63,4 +63,33 @@ li {
   padding-top: 35px;
   margin-right: 10px;
   cursor: pointer;
+}
+
+img {
+  width: 150%;
+  height: 85vh;
+  object-fit: cover;
+}
+
+.hero {
+  position: relative;
+  display: inline-block;
+}
+
+.hero .btn {
+  position: absolute;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Example placement */
+.hero .learn {
+  top: 60%;
+  left: 10%;
+}
+
+.hero .shop {
+  top: 60%;
+  left: 25%;
 }
