@@ -8,6 +8,11 @@
   font-weight: 800;
 }
 
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 .top-nav {
   height: 5vh;
   background-color: #d9d9d9;
@@ -69,15 +74,17 @@ li {
   cursor: pointer;
 }
 
-img {
-  width: 138%;
+.hero img {
   height: 85vh;
   object-fit: cover;
+  width: 100%;
 }
 
 .hero {
   position: relative;
   display: inline-block;
+  width: 100vw;
+  overflow: hidden;
 }
 
 .hero .btn {
@@ -95,13 +102,13 @@ img {
 /* Example placement */
 .hero .learn {
   top: 50%;
-  left: 70%;
+  left: 50%;
   transition: ease-in-out 0.3s;
 }
 
 .hero .shop {
   top: 50%;
-  left: 85%;
+  left: 65%;
   transition: ease-in-out 0.3s;
 }
 
@@ -117,7 +124,7 @@ img {
 
 .hero h1 {
   bottom: 50%;
-  left: 70%;
+  left: 50%;
   position: absolute;
   color: white;
   font-size: 7rem;
