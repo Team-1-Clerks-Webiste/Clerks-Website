@@ -1,6 +1,6 @@
 @import url("https://fonts.cdnfonts.com/css/nike");
 
-@import url("https://fonts.cdnfonts.com/css/american-captain");
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&display=swap");
 
 * {
   margin: 0;
@@ -51,10 +51,6 @@ li {
   cursor: pointer;
 }
 
-li:hover {
-  text-decoration: underline  object-fit: cover; ;
-}
-
 .icons input {
   padding: 5px;
   margin: 35px;
@@ -78,62 +74,68 @@ li:hover {
   cursor: pointer;
 }
 
-.hero img {
-  height: 85vh;
-  object-fit: cover;
-  width: 100%;
-}
-
 .hero {
-  position: relative;
-  display: inline-block;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   width: 100vw;
+  min-height: 90vh;
+  background-image: url("./assets/bg.webp");
+  background-size: cover;
+  background-position: 20% center;
   overflow: hidden;
 }
 
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 12px;
+  padding: 4rem;
+}
+
+.hero-label {
+  color: #c9922a;
+  font-size: 13px;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+.hero-subtitle {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 14px;
+  font-weight: 400;
+  margin: 4px 0 8px;
+}
+
+.hero h1 {
+  color: #ffffff;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin: 0;
+  text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.6);
+}
+
 .hero .btn {
-  position: absolute;
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
   cursor: pointer;
-  width: 140px;
-  background-color: black;
-  border-radius: 20px;
+  background-color: #c9922a;
+  border-radius: 6px;
   border: none;
   color: white;
-}
-
-/* Example placement */
-.hero .learn {
-  top: 50%;
-  left: 50%;
-  transition: ease-in-out 0.3s;
-}
-
-.hero .shop {
-  top: 50%;
-  left: 60%;
   transition: ease-in-out 0.3s;
 }
 
 .hero .shop:hover {
   background-color: white;
   color: black;
-}
-
-.hero .learn:hover {
-  background-color: white;
-  color: black;
-}
-
-.hero h1 {
-  bottom: 50%;
-  left: 50%;
-  position: absolute;
-  color: white;
-  font-size: 7rem;
-  width: 60%;
-  font-family: "American Captain", sans-serif;
 }
 
 .catologue {
