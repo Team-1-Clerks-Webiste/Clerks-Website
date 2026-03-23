@@ -51,6 +51,11 @@ li {
   cursor: pointer;
 }
 
+li a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .icons input {
   padding: 5px;
   margin: 35px;
