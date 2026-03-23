@@ -144,5 +144,70 @@ li a {
 }
 
 .catologue {
-  height: 120vh;
+  background-color: #111;
+  padding: 4rem 2rem;
+}
+
+.category {
+  margin-bottom: 3rem;
+}
+
+.category-heading {
+  color: white;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  margin-bottom: 1.5rem;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.card {
+  background: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.product-name {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.product-price {
+  color: #c9922a;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.add-to-bag {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.add-to-bag:hover {
+  background: #c9922a;
+  border-color: #c9922a;
 }
