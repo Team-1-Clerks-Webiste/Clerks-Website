@@ -77,20 +77,12 @@ li a {
 }
 
 .catologue {
-  background-color: #111;
+  background-color: #000000;
   padding: 4rem 2rem;
 }
 
-.category {
+.rows {
   margin-bottom: 3rem;
-}
-
-.category-heading {
-  color: white;
-  text-transform: uppercase;
-  font-size: 1.5rem;
-  letter-spacing: 2px;
-  margin-bottom: 1.5rem;
 }
 
 .product-grid {
@@ -108,9 +100,8 @@ li a {
 
 .card img {
   width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-}
+  aspect-ratio: 100/ 43;
+  object-fit: cover;}
 
 .card-body {
   padding: 1rem;
@@ -145,3 +136,37 @@ li a {
   background: #c9922a;
   border-color: #c9922a;
 }
+
+.filters{
+  background-color: #1a1a1a;
+  padding: 4rem 2rem;
+  width: 200px;
+
+}
+
+.filter{
+  margin-bottom: 10px;
+}
+
+.field_name{
+background-color: #f1f1f1;
+color: black;
+padding: 10px 20px;
+font-size: 16px;
+border: none;
+cursor: pointer;
+}
+
+.dropdown_content {
+            display: none;
+            position: absolute;
+            min-width: 160px;
+            border: 1px solid #ddd;
+            z-index: 1;
+            overflow-y: auto;
+        }
+
+.filter:hover .dropdown_content {
+            display: block;
+            background-color: #f1f1f1;
+        }
