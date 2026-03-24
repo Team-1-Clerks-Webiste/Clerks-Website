@@ -47,4 +47,11 @@ document.addEventListener("DOMContentLoaded", () => {
   mobileUl.querySelectorAll("li").forEach((li) => {
     li.addEventListener("click", closeMenu);
   });
+
+  // Close and reset when viewport widens past mobile breakpoint
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 768) {
+      closeMenu();
+    }
+  });
 });
