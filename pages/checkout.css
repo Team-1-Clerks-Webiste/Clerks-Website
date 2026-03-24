@@ -131,8 +131,9 @@ body {
 /* ── Cart list ──────────────────────────────────────── */
 .cart-list {
   display: flex;
-  flex-direction: center    ;
+  flex-direction: column;
   gap: 0;
+  width: 100%;
 }
  
 /* ── Cart item ──────────────────────────────────────── */
@@ -140,6 +141,7 @@ body {
   display: flex;
   align-items: center;
   gap: 1.2rem;
+  width: 100%;
   padding: 1.4rem 0;
   border-bottom: 1px solid rgba(201,168,76,0.1);
   animation: slideIn 0.35s ease both;
