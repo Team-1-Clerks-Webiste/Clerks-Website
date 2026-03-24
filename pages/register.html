@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="./login.css" />
+    <title>Clerks — Register</title>
+  </head>
+  <body>
+    <div class="top-nav"></div>
+    <nav>
+      <div class="logo">
+        <a href="../index.html"><img src="../assets/clerks logo.png" /></a>
+      </div>
+      <div class="links">
+        <ul>
+          <li>Men</li>
+          <li>Women</li>
+          <li>Children</li>
+          <li>Sport</li>
+          <li>School</li>
+          <li><a href="./about-us.html">About</a></li>
+          <li>Sale</li>
+        </ul>
+      </div>
+      <div class="icons">
+        <input type="text" placeholder=" Search..." />
+        <img class="icon" src="../assets/heart.png" />
+        <img class="icon" src="../assets/user.png" />
+        <a href="./checkout.html">
+          <img class="icon" src="../assets/shopping-bag.png" />
+        </a>
+      </div>
+    </nav>
+
+    <main class="login-page">
+      <div class="login-card">
+        <span class="login-label">JOIN CLERKS</span>
+        <h1>Register</h1>
+        <p class="login-sub">Create your Clerks account</p>
+
+        <form class="login-form">
+          <div class="field">
+            <label for="full-name">Full Name</label>
+            <input type="text" id="full-name" name="full-name" placeholder="John Smith" />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="••••••••" />
+          </div>
+          <div class="field">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirm-password" placeholder="••••••••" />
+          </div>
+          <button type="submit" class="login-btn">Register</button>
+        </form>
+
+        <p class="register-link">
+          Already have an account? <a href="./login.html">Sign in</a>
+        </p>
+      </div>
+    </main>
+  </body>
+</html>
