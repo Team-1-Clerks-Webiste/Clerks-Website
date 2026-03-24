@@ -55,7 +55,7 @@ li a {
 
 .icons input {
   padding: 5px;
-  margin: 35px;
+  margin: 0 15px;
   border-radius: 15px;
   border: none;
   background-color: #d9d9d9;
@@ -63,16 +63,29 @@ li a {
 
 .icons {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   margin-right: 0;
   padding-right: 20px;
 }
 
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nav-icons a {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  line-height: 0;
+}
+
 .icon {
   width: 20px;
   height: 20px;
-  padding-top: 35px;
-  margin-right: 10px;
+  display: block;
   cursor: pointer;
 }
 
@@ -216,8 +229,7 @@ li a {
   display: inline-block;
   width: 20px;
   height: 20px;
-  margin-top: 35px;
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .cart-wrapper .icon {
