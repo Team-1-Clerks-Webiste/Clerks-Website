@@ -7,73 +7,223 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    <div class="top-nav"></div>
-    <nav>
-      <div class="logo">
-      <a href="../index.html"> <img src="../assets/clerks logo.png" /> </a>
+    <div id="navbar-container"></div>
+
+
+  <main class="checkout-layout">
+ 
+    <!-- LEFT: cart items -->
+    <section class="cart-section" aria-label="Cart items">
+      <div class="section-label">YOUR BAG <span class="item-count" id="item-count">(0)</span></div>
+ 
+      <ul class="cart-list" id="cart-list"></ul>
+ 
+      <div class="empty-state" id="empty-state">
+        <svg width="48" height="32" viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 26 C9 14, 19 9, 32 12 L45 16.5 C47 17, 47.5 19, 45.5 21 L37 24 C28 27, 13 28.5 6 27.5 Z" stroke="#3a3020" stroke-width="1" fill="none"/>
+        </svg>
+        <p>Your bag is empty</p>
       </div>
-      <div class="links">
-        <ul>
-          <li>Men</li>
-          <li>Women</li>
-          <li>Children</li>
-          <li>Sport</li>
-          <li>School</li>
-          <li>About</li>
-          <li>Sale</li>
-        </ul>
-      </div>
-      <div class="icons">
-        <input type="text" placeholder=" Search..." />
-        <img class="icon" src="../assets/heart.png" />
-        <img class="icon" src="../assets/user.png" />
-        <a href="./checkout.html"
-          ><img class="icon" src="../assets/shopping-bag.png"
-        /></a>
-      </div>
-    </nav>
-    <div page-container>
-      <div id="DataSum">
-        <div>
-          <h2>Summary</h2>
-          <div class="hspacer"></div>
-          <h2>[SHOE NAME]</h2>
-          <br />
+ 
+ 
+    <!-- RIGHT: order summary -->
+    <aside class="summary-section" aria-label="Order summary">
+      <div class="summary-card">
+        <div class="section-label">ORDER SUMMARY</div>
+ 
+        <div class="summary-line">
+          <span class="s-label">Subtotal</span>
+          <span class="s-value" id="subtotal">£0.00</span>
         </div>
-
-        <div>
-          <h3>Subtotal</h3>
-          <div class="hspacer"></div>
-          <h3>£[AMOUNT]</h3>
-          <br />
+        <div class="summary-line">
+          <span class="s-label">Shipping</span>
+          <span class="s-value" id="shipping-display">—</span>
         </div>
-
-        <div>
-          <h3>Shipping</h3>
-          <div class="hspacer"></div>
-          <h3>£3.99</h3>
-          <br />
+        <div class="summary-line promo-line" id="promo-line" hidden>
+          <span class="s-label promo-label">Promo discount</span>
+          <span class="s-value promo-value" id="promo-display">–£0.00</span>
         </div>
+ 
+        <div class="summary-divider"></div>
+ 
+        <div class="summary-line total-line">
+          <span class="total-label">TOTAL</span>
+          <span class="total-value" id="total-display">£0.00</span>
+        </div>
+ 
+        <!-- Promo code -->
+        <div class="promo-row">
+          <input type="text" id="promo-input" class="promo-input" placeholder="Promo code" autocomplete="off" onkeydown="if(event.key==='Enter')applyPromo()"/>
+          <button class="promo-apply-btn" onclick="applyPromo()">Apply</button>
+        </div>
+        <p class="promo-msg" id="promo-msg"></p>
+ 
+        <div class="summary-divider"></div>
+ 
+        <!-- Proceed button (exact design from first message) -->
+        <a href="payment.html" class="proceed-link" id="proceed-link">
+          <button class="pay-btn" id="pay-btn" disabled>
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+            <span class="btn-inner">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="3.5" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M1 6.5h14" stroke="currentColor" stroke-width="1.2"/>
+              </svg>
+              Proceed to Payment
+            </span>
+          </button>
+        </a>
+ 
+        <p class="secure-note">
+          <svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline;vertical-align:middle;margin-right:5px;">
+            <rect x="0.6" y="4.6" width="8.8" height="6.8" rx="1" stroke="#6b5a2e" stroke-width="1"/>
+            <path d="M2.5 4.6V3A2.5 2.5 0 0 1 7.5 3v1.6" stroke="#6b5a2e" stroke-width="1"/>
+          </svg>
+          256-bit SSL · Secure encrypted checkout
+        </p>
       </div>
-
-      <hr />
-      <br />
-      <div id="total">
-        <h2>Total:</h2>
-        <div class="hspacer"></div>
-        <br />
-        <h2>£[TOTAL AMOUNT]</h2>
-        <br />
-
-        <br />
-        <br />
-        <a href="payment.html"
-          ><button class="proceed-button">Proceed to Payment</button></a
-        >
-      </div>
-      <br />
-      <hr />
-    </div>
-    <script src="../js/nav.js"></script>
-  </body>
+    </aside>
+ 
+  </main>
+</div>
+ 
+<script>
+const SHIPPING = 2.99;
+let cart = [];
+let promoApplied = false;
+let promoDiscount = 0;
+ 
+ 
+/* ── Render cart ──────────────── */
+function renderCart() {
+  const list   = document.getElementById('cart-list');
+  const empty  = document.getElementById('empty-state');
+  const addBtn = document.getElementById('add-demo-btn');
+ 
+  list.innerHTML = '';
+ 
+  if (cart.length === 0) {
+    empty.style.display = 'flex';
+  } else {
+    empty.style.display = 'none';
+    cart.forEach((item, idx) => {
+      const li = document.createElement('li');
+      li.className = 'cart-item';
+      li.style.animationDelay = `${idx * 0.06}s`;
+      li.innerHTML = `
+        <div class="item-thumb">
+          <svg viewBox="0 0 60 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="54" height="34">
+            <path d="M4 28 C10 18,20 14,34 16 L54 20 C56 20.5,57 22,55 24 L48 27 C40 29,20 31,8 30 Z" stroke="#c9a84c" stroke-width="1.2" fill="none"/>
+            <path d="M8 30 C20 31,40 29,48 27 L54 24 C54 26,52 28,50 28.5 L10 31 Z" stroke="#c9a84c" stroke-width="0.8" fill="rgba(201,168,76,0.07)"/>
+            <path d="M34 16 C36 12,40 10,44 12 L54 18 L54 20 L34 16 Z" stroke="#c9a84c" stroke-width="0.8" fill="none"/>
+            <path d="M20 26 L24 16" stroke="#c9a84c" stroke-width="0.6" opacity="0.45"/>
+            <path d="M28 25 L30 15" stroke="#c9a84c" stroke-width="0.6" opacity="0.45"/>
+            <path d="M36 23 L37 15" stroke="#c9a84c" stroke-width="0.6" opacity="0.45"/>
+          </svg>
+        </div>
+        <div class="item-info">
+          <p class="item-name">${item.name}</p>
+          <p class="item-meta">${item.meta}</p>
+          <div class="qty-row">
+            <button class="qty-btn" onclick="changeQty(${idx},-1)" aria-label="Decrease quantity">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${idx},1)" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+        <div class="item-right">
+          <p class="item-price">£${(item.price * item.qty).toFixed(2)}</p>
+          <button class="remove-btn" onclick="removeItem(${idx})" aria-label="Remove item">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+              <line x1="1" y1="1" x2="9" y2="9" stroke="currentColor" stroke-width="1.3"/>
+              <line x1="9" y1="1" x2="1" y2="9" stroke="currentColor" stroke-width="1.3"/>
+            </svg>
+          </button>
+        </div>
+      `;
+      list.appendChild(li);
+    });
+  }
+ 
+  document.getElementById('item-count').textContent = `(${cart.reduce((s,i)=>s+i.qty,0)})`;
+  addBtn.style.display = demoIndex >= DEMO_ITEMS.length ? 'none' : 'inline-block';
+  updateTotals();
+}
+ 
+/* ── Qty / Remove ─────────────── */
+function changeQty(idx, delta) {
+  cart[idx].qty = Math.max(1, cart[idx].qty + delta);
+  renderCart();
+}
+ 
+function removeItem(idx) {
+  const items = document.querySelectorAll('.cart-item');
+  items[idx].classList.add('removing');
+  setTimeout(() => { cart.splice(idx, 1); renderCart(); }, 280);
+}
+ 
+/* ── Totals ───────────────────── */
+function updateTotals() {
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const shipping  = cart.length === 0 ? 0 : SHIPPING;
+  const discount  = promoApplied ? promoDiscount : 0;
+  const total     = Math.max(0, subtotal + shipping - discount);
+ 
+  document.getElementById('subtotal').textContent        = `£${subtotal.toFixed(2)}`;
+  document.getElementById('shipping-display').textContent = cart.length === 0 ? '—' : `£${shipping.toFixed(2)}`;
+  document.getElementById('total-display').textContent   = `£${total.toFixed(2)}`;
+ 
+  const promoLine = document.getElementById('promo-line');
+  if (promoApplied && discount > 0) {
+    promoLine.removeAttribute('hidden');
+    document.getElementById('promo-display').textContent = `–£${discount.toFixed(2)}`;
+  } else {
+    promoLine.setAttribute('hidden', '');
+  }
+ 
+  const btn  = document.getElementById('pay-btn');
+  const link = document.getElementById('proceed-link');
+  if (cart.length === 0) {
+    btn.setAttribute('disabled', '');
+    link.style.pointerEvents = 'none';
+  } else {
+    btn.removeAttribute('disabled');
+    link.style.pointerEvents = '';
+  }
+}
+ 
+/* ── Promo ────────────────────── */
+const PROMO_CODES = { 'NEWSITEWHODIS?': 20, 'CLERKS10': 10 };
+ 
+function applyPromo() {
+  const code = document.getElementById('promo-input').value.trim().toUpperCase();
+  const msg  = document.getElementById('promo-msg');
+  if (!code) return;
+  if (PROMO_CODES[code]) {
+    promoDiscount = PROMO_CODES[code];
+    promoApplied  = true;
+    msg.textContent = `"${code}" applied — £${promoDiscount} off`;
+    msg.className   = 'promo-msg success';
+  } else {
+    msg.textContent = 'Invalid promo code.';
+    msg.className   = 'promo-msg error';
+    promoApplied    = false;
+    promoDiscount   = 0;
+  }
+  updateTotals();
+}
+ 
+renderCart();
+</script>
+</body>
 </html>
+
+<script type="module">
+  import { loadNavbar } from "/js/navbar.js";
+  loadNavbar();
+</script>
+
+  <script src="./js/cart.js"></script>
+  <script src="./js/nav.js"></script>
