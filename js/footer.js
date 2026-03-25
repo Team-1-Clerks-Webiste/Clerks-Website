@@ -189,10 +189,20 @@ const footerModule = (() => {
         padding: 2.5rem 0 2rem;
       }
 
-      .footer__nav {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: 1.5rem;
-      }
+    .footer__nav {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1.5rem;
+    }
+
+    .footer * {
+    background: transparent;
+    }
+
+    .footer__logo {
+    background: linear-gradient(135deg, var(--footer-gold), var(--footer-gold-light)) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+        }
     }
   `;
 
