@@ -138,20 +138,20 @@ li a {
 }
 
 .filters{
-  background-color: #1a1a1a;
-  padding: 4rem 2rem;
+  background-color: #c9922a;
   width: 200px;
 
 }
 
 .filter{
-  margin-bottom: 10px;
+  margin-bottom: 1px;
 }
 
 .field_name{
-background-color: #f1f1f1;
-color: black;
-padding: 10px 20px;
+background-color: #000000;
+color: #c9922a;
+width: 200px;
+padding: 15px;
 font-size: 16px;
 border: none;
 cursor: pointer;
@@ -160,13 +160,15 @@ cursor: pointer;
 .dropdown_content {
             display: none;
             position: absolute;
-            min-width: 160px;
-            border: 1px solid #ddd;
+            width: 200px;
+            min-width: 0px;
+            border: 1px solid #c9922a;
             z-index: 1;
             overflow-y: auto;
         }
 
 .filter:hover .dropdown_content {
             display: block;
-            background-color: #f1f1f1;
+            background-color: #000000;
+            color: #c9922a;
         }
