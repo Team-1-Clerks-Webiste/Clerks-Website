@@ -79,6 +79,10 @@ li a {
 .products{
   background-color: #000000;
   padding: 4rem 2rem;
+  position: absolute;
+  top:135px;
+  left: 300px;
+  width: fit-content;
 }
 
 .rows {
@@ -140,7 +144,10 @@ li a {
 .filters{
   background-color: #000000;
   width: 200px;
-
+  position: absolute;
+  top: 200px;
+  left: 50px;
+  
 }
 
 .filter{
@@ -176,21 +183,6 @@ cursor: pointer;
             color: #c9922a;
         }
 
-.page_contents {
-  display: flex;
-  gap: 20px;
-}
+.footer{
 
-.filters {
-  position: sticky;
-  top: 0;
-  flex: 0 0 250px;
-  min-width: 250px;
-  height: fit-content;
-  overflow-y: auto;
-  max-height: 100vh;
-}
-
-.products{
-  flex: 1;
 }
