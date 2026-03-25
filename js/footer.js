@@ -11,7 +11,7 @@ const footerModule = (() => {
   // --- CONFIG: Edit your pages here ---
   const config = {
     brandName: 'Clerks',
-    tagline: 'Your one-stop shop.',
+    tagline: 'Comfort, Reimagined',
     columns: [
       {
         heading: 'Navigate',
