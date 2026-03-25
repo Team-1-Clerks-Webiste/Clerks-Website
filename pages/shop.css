@@ -76,7 +76,7 @@ li a {
   cursor: pointer;
 }
 
-.catologue {
+.products{
   background-color: #000000;
   padding: 4rem 2rem;
 }
@@ -87,8 +87,8 @@ li a {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
 .card {
@@ -138,13 +138,13 @@ li a {
 }
 
 .filters{
-  background-color: #c9922a;
+  background-color: #000000;
   width: 200px;
 
 }
 
 .filter{
-  margin-bottom: 1px;
+  margin-bottom: 0px;
 }
 
 .field_name{
@@ -153,18 +153,21 @@ color: #c9922a;
 width: 200px;
 padding: 15px;
 font-size: 16px;
-border: none;
+font-family: sans-serif;
+border: 1px solid #c9922a;
 cursor: pointer;
 }
 
 .dropdown_content {
             display: none;
             position: absolute;
-            width: 200px;
+            width: 198px;
             min-width: 0px;
             border: 1px solid #c9922a;
             z-index: 1;
             overflow-y: auto;
+            font-family: sans-serif;
+            font-size: small;
         }
 
 .filter:hover .dropdown_content {
@@ -172,3 +175,22 @@ cursor: pointer;
             background-color: #000000;
             color: #c9922a;
         }
+
+.page_contents {
+  display: flex;
+  gap: 20px;
+}
+
+.filters {
+  position: sticky;
+  top: 0;
+  flex: 0 0 250px;
+  min-width: 250px;
+  height: fit-content;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+.products{
+  flex: 1;
+}
