@@ -1,21 +1,48 @@
-<html>
-    <header>
-        <title>Payment Page</title>
-        <link rel="stylesheet" href="./payment.css">
-
-    </header>
-
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="./payment.css" />
+    <title>Clerks — Payment</title>
+  </head>
     <body>
-        <h2>Payment Information</h2>
-        <form>
-            <label for="card-number">Card Number:</label><br>
-            <input type="text" id="card-number" name="card-number"><br><br>
-            <label for="expiry-date">Expiry Date:</label><br>
-            <input type="text" id="expiry-date" name="expiry-date"><br><br>
-            <label for="cvv">CVV:</label><br>
-            <input type="text" id="cvv" name="cvv"><br><br>
-            <button type="submit" class="pay-button">Pay Now</button>
-        </form>
+    <div class="top-nav"></div>
+    <nav class="navbar" >
+      <div class="logo">
+        <a href="../index.html"><img src="../assets/clerks logo.png" /></a>
+      </div>
+      <div class="links">
+        <ul>
+          <li>Men</li>
+          <li>Women</li>
+          <li>Children</li>
+          <li>Sport</li>
+          <li>School</li>
+          <li><a href="./about-us.html">About</a></li>
+          <li>Sale</li>
+        </ul>
+      </div>
+      <div class="icons">
+        <input type="text" placeholder=" Search..." />
+        <img class="icon" src="../assets/heart.png" />
+        <a href="./login.html">
+          <img class="icon" src="../assets/user.png" />
+        </a>
+        <a href="./checkout.html">
+          <img class="icon" src="../assets/shopping-bag.png" />
+        </a>
+      </div>
+    </nav>
+
+
+
+        <div class="payment-container">
+            <h1>Payment Page</h1>
+            <h2>This is where the payment form will go.</h2>
+        </div>
+
         <script src="/js/footer.js"></script>
     </body>
 

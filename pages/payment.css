@@ -1,0 +1,24 @@
+
+
+.payment-container {
+  background-color: #090909;
+  padding: 50px 0;
+  margin: 0;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Apply the gold gradient only to the heading text */
+.payment-container h1,
+.payment-container h2 {
+    text-align: center;
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--footer-gold), var(--footer-gold-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
