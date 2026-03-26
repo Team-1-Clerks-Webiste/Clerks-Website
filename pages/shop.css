@@ -78,13 +78,12 @@ li a {
   cursor: pointer;
 }
 
+
 .products{
   background-color: #000000;
   padding: 4rem 2rem;
-  position: absolute;
-  top:222px;
-  right: 100px;
-  left: 400px;
+  display: flex;
+  flex-wrap: wrap;
   width: fit-content;
 }
 
@@ -147,9 +146,8 @@ li a {
 .filters{
   background-color: #000000;
   width: 200px;
-  position: absolute;
-  top: 280px;
-  left: 132px;
+  display: flex;
+  flex-direction: column;
 }
 
 .filter{
@@ -218,8 +216,7 @@ border: 1px #c9a84c solid;
         }
 
 .sort_by{
+width: 200px;
 text-align:left;
-position: absolute;
-right: 132px;
-top: 185px;
+display: flex;
 }
