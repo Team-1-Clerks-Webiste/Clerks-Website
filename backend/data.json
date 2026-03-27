@@ -1,0 +1,83 @@
+[
+{
+"name": "Runner Pro X1",
+"price": 89.99,
+"group": "Mens",
+"style": "Sport",
+"color": "Blue",
+"material": "Fabric"
+},
+
+{
+"name": "Urban Stride",
+"price": 74.99,
+"group": "Mens",
+"style": "Casual",
+"color": "Brown",
+"material": "Leather"
+},
+
+{
+"name": "Classic Low",
+"price": 64.99,
+"group": "Mens",
+"style": "Luxury",
+"color": "Black",
+"material": "Leather"
+},
+
+{
+"name": "Soft Step Air",
+"price": 94.99,
+"group": "Womens",
+"style": "Sport",
+"color": "Black",
+"material": "Fabric"
+},
+
+{
+"name": "Slim Court",
+"price": 79.99,
+"group": "Womens",
+"style": "Casual",
+"color": "Pink",
+"material": "Leather"
+},
+
+{
+"name": "Luxe Walk",
+"price": 109.99,
+"group": "Womens",
+"style": "Luxury",
+"color": "Black",
+"material": "Leather"
+},
+
+{
+"name": "Dino Dash",
+"price": 44.99,
+"group": "Kids",
+"style": "Sport",
+"color": "Grey",
+"material": "Fabric"
+},
+
+{
+"name": "Play Runner",
+"price": 39.99,
+"group": "Kids",
+"style": "Casual",
+"color": "White",
+"material": "Fabric"
+},
+
+{
+"name": "School Step",
+"price": 34.99,
+"group": "Kids",
+"style": "Luxury",
+"color": "Black",
+"material": "Leather"
+}
+]
+
