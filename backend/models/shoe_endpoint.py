@@ -1,7 +1,7 @@
-from fastapi import FastAPI
-import APIrouter
+from fastapi import FastAPI, APIRouter
 
-router = APIrouter()
+app = FastAPI()
+router = APIRouter()
 
 shoes = [
     {"id": 1, "name": "Nike Air Max", "price": 120, "group": "men", "style": "running"},
@@ -11,4 +11,7 @@ shoes = [
 
 @router.get("/shoes")
 def get_shoes():
-    return shoes
+    return [{"name": shoe["name"], "price": shoe["price"], "group": shoe["group"], "style": shoe["style"]}
+    for shoe in shoes]
+
+app.include_router(router)
