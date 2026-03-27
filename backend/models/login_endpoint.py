@@ -1,7 +1,6 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import APIRouter
 import sqlite3
 
-app = FastAPI()
 router = APIRouter()
 
 def get_db():
@@ -12,5 +11,5 @@ def get_db():
 @router.get("/users")
 def get_users():
     conn = get_db()
-    users = conn.execute("SELECT username,password,email FROM users").fetchall()
+    users = conn.execute("SELECT id, username, email FROM users").fetchall()
     return [dict(user) for user in users]
