@@ -14,7 +14,8 @@ def get_db():
 @app.get("/users")
 def get_user():
     conn = get_db()
-    users = conn.execute("Select username, password, email From users")
+    users = conn.execute("Select username, password, email From users").fetchall()
+    return [dict(user) for user in users]
     
 
 
