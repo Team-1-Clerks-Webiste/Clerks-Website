@@ -7,8 +7,6 @@ from schemas.user import init_users_table
 app = FastAPI()
 
 
-
-
 #create tables on startup
 init_users_table()
 
