@@ -1,9 +1,0 @@
-CREATE TABLE IF NOT EXISTS shoes(
-   ID INTEGER PRIMARY KEY  AUTOINCREMENT,
-   NAME           TEXT    NOT NULL,
-   PRICE          INTEGER    NOT NULL,
-   GROUP         TEXT    NOT NULL,
-   STYLE          TEXT    NOT NULL,
-   COLOR          TEXT    NOT NULL,
-   MATERIAL       TEXT    NOT NULL
-);
