@@ -68,19 +68,21 @@ li a {
 
 .products{
   background-color: #000000;
-  padding: 4rem 2rem;
+  width: fit-content;
   display: flex;
   flex-wrap: wrap;
-  width: fit-content;
+  gap: 20px;
+  padding: 20px;
+  flex: 1; 
 }
 
 .rows {
-  margin-bottom: 3rem;
+  display:contents;
 }
 
 .product-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
 }
 
@@ -89,6 +91,7 @@ li a {
   border: none;
   border-radius: 8px;
   overflow: hidden;
+  flex: 1 1 200px;
 }
 
 .card img {
@@ -132,10 +135,11 @@ li a {
 
 .filters{
   background-color: #000000;
-  max-width: 200px;
+  width: 200px;
   display: flex;
   flex-direction: column;
   padding: 4rem 2rem;
+  flex-shrink: 0; 
 }
 
 .filter{
@@ -204,4 +208,12 @@ border: 1px #c9a84c solid;
 
 .sort_by{
 display: flex;
+max-width: 200px;
+}
+
+.filters-and-products {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
 }
