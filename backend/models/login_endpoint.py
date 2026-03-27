@@ -14,4 +14,22 @@ def get_users():
     users = conn.execute("SELECT id, username, email FROM users").fetchall()
     return [dict(user) for user in users]
 
+<<<<<<< HEAD
 
+=======
+# @router.get("/users/{email}")
+# def get_user(email: str):
+#     conn = get_db()
+#     user = conn.execute("SELECT id, username, email FROM users WHERE email = ?", (email,)).fetchone()
+#     if user is None:
+#         return {"error": "User not found"}
+#     return dict(user)
+
+# @router.post("/users/{password}")
+# def get_user(password: str):
+#     conn = get_db()
+#     user = conn.execute("SELECT id, username, email FROM users WHERE password = ?", (password,)).fetchone()
+#     if user is None:
+#         return {"error": "User not found"}
+#     return dict(user)
+>>>>>>> 319bc7e9cae13f00f91ef190a4efde6edbab4b1d
