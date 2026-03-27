@@ -15,5 +15,12 @@ def get_shoes():
     shoes = conn.execute("SELECT * FROM shoes").fetchall()
     return [dict(shoe) for shoe in shoes]
 
+@router.get("/shoes/{shoe_id}")
+def get_shoe(shoe_id: int):
+    conn = get_db()
+    shoe = conn.execute("SELECT * FROM shoes WHERE id = ?", (shoe_id,)).fetchone()
+    if shoe is None:
+        return {"error": "Shoe not found"}
+    return dict(shoe)
 
 app.include_router(router)
