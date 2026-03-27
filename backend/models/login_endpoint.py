@@ -13,3 +13,5 @@ def get_users():
     conn = get_db()
     users = conn.execute("SELECT id, username, email FROM users").fetchall()
     return [dict(user) for user in users]
+
+
