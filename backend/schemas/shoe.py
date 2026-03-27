@@ -9,7 +9,7 @@ def init_shoes_table():
             ID INTEGER PRIMARY KEY  AUTOINCREMENT,
             NAME           TEXT    NOT NULL,
             PRICE          INTEGER    NOT NULL,
-            GROUP         TEXT    NOT NULL,
+            CATEGORY         TEXT    NOT NULL,
             STYLE          TEXT    NOT NULL,
             COLOR          TEXT    NOT NULL,
             MATERIAL       TEXT    NOT NULL
