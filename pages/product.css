@@ -11,6 +11,7 @@
 body {
   width: 100%;
   overflow-x: hidden;
+  background-color: black;
 }
 
 .top-nav {
@@ -76,3 +77,14 @@ li a {
   cursor: pointer;
 }
 
+.page_content{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.left_content img{
+  width: 50%;
+  object-fit: fill;
+}
