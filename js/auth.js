@@ -1,6 +1,39 @@
 const API_BASE = "http://localhost:8000";
 
+function updateNavAuth() {
+  const userId = localStorage.getItem("user_id");
+  const username = localStorage.getItem("username");
+  if (!userId || !username) return;
+
+  const userImg = document.querySelector('img[src*="user.png"]');
+  if (!userImg) return;
+  const loginLink = userImg.closest("a");
+  if (!loginLink) return;
+
+  loginLink.href = "#";
+  loginLink.title = "Click to log out";
+
+  const greeting = document.createElement("span");
+  greeting.textContent = "Hi, " + username;
+  greeting.style.fontSize = "12px";
+  greeting.style.color = "#c9922a";
+  greeting.style.marginRight = "4px";
+  greeting.style.whiteSpace = "nowrap";
+
+  loginLink.parentNode.insertBefore(greeting, loginLink);
+
+  loginLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("username");
+    const isInPages = window.location.pathname.includes("/pages/");
+    window.location.href = isInPages ? "login.html" : "./pages/login.html";
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  updateNavAuth();
+
   const registerForm = document.querySelector(".login-form");
 
   if (!registerForm) return;
