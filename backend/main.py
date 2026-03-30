@@ -1,11 +1,11 @@
 from fastapi import FastAPI
-from schemas.user import init_users_table
-from schemas.shoe import init_shoes_table
-from schemas.orders import init_orders_table
-from models.shoe_endpoint import router as shoes_router
-from models.login_endpoint import router as auth_router
-from models.cart_endpoint import router as cart_router
-from models.orders_endpoint import router as orders_router
+from backend.schemas.user import init_users_table
+from backend.schemas.shoe import init_shoes_table
+from backend.schemas.orders import init_orders_table
+from backend.models.shoe_endpoint import router as shoes_router
+from backend.models.login_endpoint import router as auth_router
+from backend.models.cart_endpoint import router as cart_router
+from backend.models.orders_endpoint import router as orders_router
 
 app = FastAPI()
 
