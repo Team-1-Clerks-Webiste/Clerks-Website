@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from schemas.user import init_users_table
 from schemas.shoe import init_shoes_table
 from schemas.orders import init_orders_table
@@ -8,6 +9,13 @@ from models.cart_endpoint import router as cart_router
 from models.orders_endpoint import router as orders_router
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # create tables on startup
 init_users_table()
