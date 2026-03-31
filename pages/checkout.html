@@ -7,44 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    <div class="top-nav"></div>
-    <nav class="navbar" >
-      <div class="logo">
-        <a href="../index.html"><img src="../assets/clerks logo.png" /></a>
-      </div>
-      <div class="links">
-        <ul>
-          <li>Men</li>
-          <li>Women</li>
-          <li>Children</li>
-          <li>Sport</li>
-          <li>School</li>
-          <li><a href="./about-us.html">About</a></li>
-          <li>Sale</li>
-        </ul>
-      </div>
-      <div class="icons">
-        <input type="text" placeholder=" Search..." />
-        <img class="icon" src="../assets/heart.png" />
-        <a href="./login.html">
-          <img class="icon" src="../assets/user.png" />
-        </a>
-        <a href="./checkout.html">
-          <img class="icon" src="../assets/shopping-bag.png" />
-        </a>
-      </div>
-    </nav>
+    <script src="../js/navbar.js"></script>
 
     <main class="checkout-layout">
-
       <!-- LEFT: cart items -->
       <section class="cart-section" aria-label="Cart items">
-        <div class="section-label">YOUR BAG <span class="item-count" id="item-count">(0)</span></div>
+        <div class="section-label">
+          YOUR BAG <span class="item-count" id="item-count">(0)</span>
+        </div>
 
         <ul class="cart-list" id="cart-list"></ul>
 
         <div class="empty-state" id="empty-state">
-          <p>Your bag is empty. <a href="../index.html">Continue shopping</a></p>
+          <p>
+            Your bag is empty. <a href="../index.html">Continue shopping</a>
+          </p>
         </div>
       </section>
 
@@ -75,8 +52,17 @@
 
           <!-- Promo code -->
           <div class="promo-row">
-            <input type="text" id="promo-input" class="promo-input" placeholder="Promo code" autocomplete="off" onkeydown="if(event.key==='Enter')applyPromo()"/>
-            <button class="promo-apply-btn" onclick="applyPromo()">Apply</button>
+            <input
+              type="text"
+              id="promo-input"
+              class="promo-input"
+              placeholder="Promo code"
+              autocomplete="off"
+              onkeydown="if (event.key === 'Enter') applyPromo();"
+            />
+            <button class="promo-apply-btn" onclick="applyPromo()">
+              Apply
+            </button>
           </div>
           <p class="promo-msg" id="promo-msg"></p>
 
@@ -89,9 +75,27 @@
               <span class="corner bl"></span>
               <span class="corner br"></span>
               <span class="btn-inner">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="3.5" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
-                  <path d="M1 6.5h14" stroke="currentColor" stroke-width="1.2"/>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    x="1"
+                    y="3.5"
+                    width="14"
+                    height="9"
+                    rx="1.5"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  />
+                  <path
+                    d="M1 6.5h14"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  />
                 </svg>
                 Proceed to Payment
               </span>
@@ -99,15 +103,33 @@
           </a>
 
           <p class="secure-note">
-            <svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline;vertical-align:middle;margin-right:5px;">
-              <rect x="0.6" y="4.6" width="8.8" height="6.8" rx="1" stroke="#6b5a2e" stroke-width="1"/>
-              <path d="M2.5 4.6V3A2.5 2.5 0 0 1 7.5 3v1.6" stroke="#6b5a2e" stroke-width="1"/>
+            <svg
+              width="10"
+              height="12"
+              viewBox="0 0 10 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style="display: inline; vertical-align: middle; margin-right: 5px"
+            >
+              <rect
+                x="0.6"
+                y="4.6"
+                width="8.8"
+                height="6.8"
+                rx="1"
+                stroke="#6b5a2e"
+                stroke-width="1"
+              />
+              <path
+                d="M2.5 4.6V3A2.5 2.5 0 0 1 7.5 3v1.6"
+                stroke="#6b5a2e"
+                stroke-width="1"
+              />
             </svg>
             256-bit SSL · Secure encrypted checkout
           </p>
         </div>
       </aside>
-
     </main>
 
     <script src="../js/cart.js"></script>
@@ -122,16 +144,16 @@
       function buildCart() {
         const raw = getCart();
         const map = new Map();
-        raw.forEach(item => {
+        raw.forEach((item) => {
           if (map.has(item.name)) {
             map.get(item.name).qty += 1;
           } else {
             map.set(item.name, {
               name: item.name,
-              price: parseFloat(item.price.replace(/[^0-9.]/g, '')),
+              price: parseFloat(item.price.replace(/[^0-9.]/g, "")),
               priceStr: item.price,
               image: item.image,
-              qty: 1
+              qty: 1,
             });
           }
         });
@@ -141,9 +163,13 @@
       /* ── Persist aggregated cart back to localStorage ── */
       function saveCartToStorage() {
         const flat = [];
-        cart.forEach(item => {
+        cart.forEach((item) => {
           for (let i = 0; i < item.qty; i++) {
-            flat.push({ name: item.name, price: item.priceStr, image: item.image });
+            flat.push({
+              name: item.name,
+              price: item.priceStr,
+              image: item.image,
+            });
           }
         });
         saveCart(flat);
@@ -151,18 +177,18 @@
 
       /* ── Render cart ── */
       function renderCart() {
-        const list  = document.getElementById('cart-list');
-        const empty = document.getElementById('empty-state');
+        const list = document.getElementById("cart-list");
+        const empty = document.getElementById("empty-state");
 
-        list.innerHTML = '';
+        list.innerHTML = "";
 
         if (cart.length === 0) {
-          empty.style.display = 'flex';
+          empty.style.display = "flex";
         } else {
-          empty.style.display = 'none';
+          empty.style.display = "none";
           cart.forEach((item, idx) => {
-            const li = document.createElement('li');
-            li.className = 'cart-item';
+            const li = document.createElement("li");
+            li.className = "cart-item";
             li.style.animationDelay = `${idx * 0.06}s`;
             li.innerHTML = `
               <div class="item-thumb">
@@ -190,7 +216,8 @@
           });
         }
 
-        document.getElementById('item-count').textContent = `(${cart.reduce((s, i) => s + i.qty, 0)})`;
+        document.getElementById("item-count").textContent =
+          `(${cart.reduce((s, i) => s + i.qty, 0)})`;
         updateTotals();
       }
 
@@ -202,8 +229,8 @@
       }
 
       function removeItem(idx) {
-        const items = document.querySelectorAll('.cart-item');
-        items[idx].classList.add('removing');
+        const items = document.querySelectorAll(".cart-item");
+        items[idx].classList.add("removing");
         setTimeout(() => {
           cart.splice(idx, 1);
           saveCartToStorage();
@@ -216,48 +243,61 @@
         const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
         const shipping = cart.length === 0 ? 0 : SHIPPING;
         const discount = promoApplied ? promoDiscount : 0;
-        const total    = Math.max(0, subtotal + shipping - discount);
+        const total = Math.max(0, subtotal + shipping - discount);
 
-        document.getElementById('subtotal').textContent         = `£${subtotal.toFixed(2)}`;
-        document.getElementById('shipping-display').textContent = cart.length === 0 ? '—' : `£${shipping.toFixed(2)}`;
-        document.getElementById('total-display').textContent    = `£${total.toFixed(2)}`;
+        document.getElementById("subtotal").textContent =
+          `£${subtotal.toFixed(2)}`;
+        document.getElementById("shipping-display").textContent =
+          cart.length === 0 ? "—" : `£${shipping.toFixed(2)}`;
+        document.getElementById("total-display").textContent =
+          `£${total.toFixed(2)}`;
 
-        const promoLine = document.getElementById('promo-line');
+        const promoLine = document.getElementById("promo-line");
         if (promoApplied && discount > 0) {
-          promoLine.removeAttribute('hidden');
-          document.getElementById('promo-display').textContent = `–£${discount.toFixed(2)}`;
+          promoLine.removeAttribute("hidden");
+          document.getElementById("promo-display").textContent =
+            `–£${discount.toFixed(2)}`;
         } else {
-          promoLine.setAttribute('hidden', '');
+          promoLine.setAttribute("hidden", "");
         }
 
-        const btn  = document.getElementById('pay-btn');
-        const link = document.getElementById('proceed-link');
+        const btn = document.getElementById("pay-btn");
+        const link = document.getElementById("proceed-link");
         if (cart.length === 0) {
-          btn.setAttribute('disabled', '');
-          link.style.pointerEvents = 'none';
+          btn.setAttribute("disabled", "");
+          link.style.pointerEvents = "none";
         } else {
-          btn.removeAttribute('disabled');
-          link.style.pointerEvents = '';
+          btn.removeAttribute("disabled");
+          link.style.pointerEvents = "";
         }
       }
 
       /* ── Promo ── */
-      const PROMO_CODES = { 'NEWSITEWHODIS?': 20, 'DIADUCKK': 10, 'ILONASTINKS': 100, 'THECUBE': 50, 'NATHANGREEN': 1};
+      const PROMO_CODES = {
+        "NEWSITEWHODIS?": 20,
+        DIADUCKK: 10,
+        ILONASTINKS: 100,
+        THECUBE: 50,
+        NATHANGREEN: 1,
+      };
 
       function applyPromo() {
-        const code = document.getElementById('promo-input').value.trim().toUpperCase();
-        const msg  = document.getElementById('promo-msg');
+        const code = document
+          .getElementById("promo-input")
+          .value.trim()
+          .toUpperCase();
+        const msg = document.getElementById("promo-msg");
         if (!code) return;
         if (PROMO_CODES[code]) {
           promoDiscount = PROMO_CODES[code];
-          promoApplied  = true;
+          promoApplied = true;
           msg.textContent = `"${code}" applied — £${promoDiscount} off`;
-          msg.className   = 'promo-msg success';
+          msg.className = "promo-msg success";
         } else {
-          msg.textContent = 'Invalid promo code.';
-          msg.className   = 'promo-msg error';
-          promoApplied    = false;
-          promoDiscount   = 0;
+          msg.textContent = "Invalid promo code.";
+          msg.className = "promo-msg error";
+          promoApplied = false;
+          promoDiscount = 0;
         }
         updateTotals();
       }

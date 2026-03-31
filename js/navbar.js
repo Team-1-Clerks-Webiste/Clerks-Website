@@ -77,7 +77,7 @@
       letter-spacing: 0.1em;
       color: #111;
       outline: none;
-      width: 160px;
+      width: (60px, 10vw, 186px);
       transition: border-color 0.2s;
     }
 
@@ -145,7 +145,7 @@
   const logoDiv = document.createElement("div");
   logoDiv.className = "clerks-logo";
   logoDiv.appendChild(
-    makeLink("/index.html", makeImg(ASSETS + "clerks logo.png", "Clerks"))
+    makeLink("/index.html", makeImg(ASSETS + "clerks logo.png", "Clerks")),
   );
 
   // Nav links
@@ -153,13 +153,13 @@
   linksDiv.className = "clerks-links";
   const ul = document.createElement("ul");
   [
-    { label: "Men",      href: null },
-    { label: "Women",    href: null },
+    { label: "Men", href: null },
+    { label: "Women", href: null },
     { label: "Children", href: null },
-    { label: "Sport",    href: null },
-    { label: "School",   href: null },
-    { label: "About",    href: "/pages/about-us.html" },
-    { label: "Sale",     href: null },
+    { label: "Sport", href: null },
+    { label: "School", href: null },
+    { label: "About", href: "/pages/about-us.html" },
+    { label: "Sale", href: null },
   ].forEach(function (item) {
     const li = document.createElement("li");
     if (item.href) {
@@ -185,14 +185,16 @@
   iconsDiv.appendChild(searchInput);
   iconsDiv.appendChild(makeImg(ASSETS + "heart.png", "", "clerks-icon"));
   iconsDiv.appendChild(
-    makeLink("/pages/login.html",
-      makeImg(ASSETS + "user.png", "", "clerks-icon")
-    )
+    makeLink(
+      "/pages/login.html",
+      makeImg(ASSETS + "user.png", "", "clerks-icon"),
+    ),
   );
   iconsDiv.appendChild(
-    makeLink("/pages/checkout.html",
-      makeImg(ASSETS + "shopping-bag.png", "", "clerks-icon")
-    )
+    makeLink(
+      "/pages/checkout.html",
+      makeImg(ASSETS + "shopping-bag.png", "", "clerks-icon"),
+    ),
   );
 
   nav.appendChild(logoDiv);
@@ -200,6 +202,6 @@
   nav.appendChild(iconsDiv);
 
   /* ── Insert at top of <body> ── */
-  document.body.insertBefore(nav,    document.body.firstChild);
+  document.body.insertBefore(nav, document.body.firstChild);
   document.body.insertBefore(topNav, document.body.firstChild);
 })();

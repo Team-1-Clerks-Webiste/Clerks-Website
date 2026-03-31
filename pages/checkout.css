@@ -2,12 +2,6 @@
   width: max(0%, 100%);
 }
 
-.navbar {
-  background-color: white;
-  color: black;
-  padding: 10px;
-}
-
 /* ── Variables ──────────────────────────────────────── */
 :root {
   --gold: #c9a84c;
