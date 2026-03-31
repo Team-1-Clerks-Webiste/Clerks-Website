@@ -49,23 +49,51 @@ function createProductCard(shoe, id) {
 
   const img = document.createElement("img");
   img.src = "../assets/mens_sports.png"; // Default image
-  img.alt = shoe.name;
+  img.alt = shoe.NAME;
 
   const cardBody = document.createElement("div");
   cardBody.className = "card-body";
 
   const productName = document.createElement("p");
   productName.className = "product-name";
-  productName.textContent = shoe.name;
+  productName.textContent = shoe.NAME;
 
   const productPrice = document.createElement("p");
   productPrice.className = "product-price";
-  productPrice.textContent = `£${shoe.price}`;
+  productPrice.textContent = `£${shoe.PRICE}`;
 
   const addButton = document.createElement("button");
   addButton.className = "add-to-bag";
   addButton.textContent = "Add to Bag";
-  addButton.onclick = () => addToCart(shoe.name, shoe.price);
+
+  // Integrate with existing cart functionality
+  addButton.addEventListener("click", () => {
+    const price = `£${shoe.PRICE}`;
+    const image = "../assets/mens_sports.png";
+    const shoeId = shoe.ID;
+
+    // Call the cart.js function
+    if (typeof addToBag === "function") {
+      addToBag(shoe.NAME, price, image, shoeId);
+
+      // Update button feedback
+      addButton.textContent = "Added!";
+      addButton.disabled = true;
+
+      // Reset after 2 seconds
+      setTimeout(() => {
+        addButton.textContent = "Add to Bag";
+        addButton.disabled = false;
+      }, 2000);
+
+      // Update counter
+      if (typeof updateCounter === "function") {
+        updateCounter();
+      }
+    } else {
+      console.error("addToBag function not found");
+    }
+  });
 
   cardBody.appendChild(productName);
   cardBody.appendChild(productPrice);
@@ -75,12 +103,6 @@ function createProductCard(shoe, id) {
   card.appendChild(cardBody);
 
   return card;
-}
-
-// Add to cart function
-function addToCart(productName, productPrice) {
-  console.log(`Added ${productName} to cart - £${productPrice}`);
-  // You can integrate this with your existing cart logic
 }
 
 // Load shoes when the page loads
