@@ -167,7 +167,9 @@ cursor: pointer;
             display: none;
             max-width: 198px;
             min-width: 0px;
-            border: 1px solid rgba(201, 168, 76, 0.18);
+            border: 0px solid #111;
+            border-top: 1px solid rgba(201, 168, 76, 0.18);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.18);
             z-index: 1;
             overflow-y: auto;
             font-family: sans-serif;
@@ -179,7 +181,6 @@ cursor: pointer;
             background-color: #111;
             color: #c9a84c;
         }
-
 
 .sort_button{
 background-color: #111;
