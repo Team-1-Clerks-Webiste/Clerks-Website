@@ -157,8 +157,14 @@ li a {
   background-color: #111;
   width: 200px;
   display: flex;
+  padding: 15px;
   flex-direction: column;
   flex-shrink: 0; 
+  position: sticky;  
+  top: 0;            
+  align-self: flex-start;  
+  max-height: 100vh; 
+  overflow-y: auto;  
 }
 
 .filter{
