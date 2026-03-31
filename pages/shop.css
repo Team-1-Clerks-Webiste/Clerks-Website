@@ -158,8 +158,8 @@ padding: 15px;
 font-size: 16px;
 font-family: sans-serif;
 border: 0px solid #111;
-border-top: 1px solid #c9a84c;
-border-bottom: 1px solid #c9a84c;
+border-top: 1px solid rgba(201, 168, 76, 0.18);
+border-bottom: 1px solid rgba(201, 168, 76, 0.18);
 cursor: pointer;
 }
 
@@ -167,7 +167,9 @@ cursor: pointer;
             display: none;
             max-width: 198px;
             min-width: 0px;
-            border: 1px solid #c9a84c;
+            border: 0px solid #111;
+            border-top: 1px solid rgba(201, 168, 76, 0.18);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.18);
             z-index: 1;
             overflow-y: auto;
             font-family: sans-serif;
@@ -180,7 +182,6 @@ cursor: pointer;
             color: #c9a84c;
         }
 
-
 .sort_button{
 background-color: #111;
 color: #c9a84c;
@@ -188,28 +189,27 @@ width: 200px;
 padding: 15px;
 font-size: 16px;
 font-family: sans-serif;
-border: 1px #c9a84c solid;
+border: 1px solid rgba(201, 168, 76, 0.18);
 cursor: pointer;
 }
-
-.sort_by:hover .sort_content {
-            display: block;
-            background-color: #111;
-            color: #c9a84c;
-        }
 
 .sort_content {
             display: none;
             position: absolute;
             width: 198px;
             min-width: 0px;
-            border: 1px solid #c9a84c;
+            border: 1px solid rgba(201, 168, 76, 0.18);
             z-index: 1;
             overflow-y: auto;
             font-family: sans-serif;
             font-size: small;
         }
 
+.sort_by:hover .sort_content {
+            display: block;
+            background-color: #111;
+            color: #c9a84c;
+        }
 .sort_by{
 display: flex;
 max-width: 200px;
