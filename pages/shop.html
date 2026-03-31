@@ -9,10 +9,11 @@
   </head>
   
   <body>
+    /* nav bar not at top of page */
     <div class="top-nav"></div>
     <nav class="navbar" >
       <div class="logo">
-        <img src="../assets/clerks logo.png" />
+        <a href="../index.html"><img src="../assets/clerks logo.png" /></a>
       </div>
       <div class="links">
         <ul>
@@ -21,22 +22,19 @@
           <li>Children</li>
           <li>Sport</li>
           <li>School</li>
-          <li><a href="../pages/about-us.html">About</a></li>
+          <li><a href="./about-us.html">About</a></li>
           <li>Sale</li>
         </ul>
       </div>
       <div class="icons">
         <input type="text" placeholder=" Search..." />
-        <div class="nav-icons">
-          <img class="icon" src="../assets/heart.png" />
-          <a href="../pages/login.html"><img class="icon" src="../assets/user.png" /></a>
-          <a href="../pages/checkout.html">
-            <div class="cart-wrapper">
-              <img class="icon" src="../assets/shopping-bag.png" />
-              <span id="cart-count"></span>
-            </div>
-          </a>
-        </div>
+        <img class="icon" src="../assets/heart.png" />
+        <a href="./login.html">
+          <img class="icon" src="../assets/user.png" />
+        </a>
+        <a href="./checkout.html">
+          <img class="icon" src="../assets/shopping-bag.png" />
+        </a>
       </div>
     </nav>
 
@@ -207,6 +205,8 @@
               </div>
         </section>
 
+        /* products dont fill page*/
+        /* unabme to change the colours on the cards*/
         <section class="products">
           <div class="rows">
             <div class="product-grid">
@@ -304,7 +304,7 @@
       </div>
     </div>
 
-
+  <script src="../js/shop.js"></script>
   <script src="../js/footer.js"></script>
   <script src="../js/cart.js"></script>
   <script src="../js/auth.js"></script>
