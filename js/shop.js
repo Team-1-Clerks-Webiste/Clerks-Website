@@ -12,30 +12,14 @@ async function loadShoes() {
     // Get the products section
     const productsSection = document.querySelector(".products");
 
-    // Clear existing product rows
+    // Clear existing product cards
     productsSection.innerHTML = "";
 
-    // Create rows with 2 products each
-    for (let i = 0; i < shoes.length; i += 2) {
-      const rowDiv = document.createElement("div");
-      rowDiv.className = "rows";
-
-      const gridDiv = document.createElement("div");
-      gridDiv.className = "product-grid";
-
-      // First product in row
-      const card1 = createProductCard(shoes[i], i + 1);
-      gridDiv.appendChild(card1);
-
-      // Second product in row (if exists)
-      if (i + 1 < shoes.length) {
-        const card2 = createProductCard(shoes[i + 1], i + 2);
-        gridDiv.appendChild(card2);
-      }
-
-      rowDiv.appendChild(gridDiv);
-      productsSection.appendChild(rowDiv);
-    }
+    // Create cards and append directly to products section
+    shoes.forEach((shoe, index) => {
+      const card = createProductCard(shoe, index + 1);
+      productsSection.appendChild(card);
+    });
   } catch (error) {
     console.error("Error loading shoes:", error);
   }
