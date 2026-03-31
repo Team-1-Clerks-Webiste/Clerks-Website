@@ -14,6 +14,11 @@ body {
   background-color: #111;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 .navbar {
   background-color: white;
   color: black;
@@ -72,18 +77,21 @@ li a {
   flex-direction: row;
   justify-content: center;
   gap: 20px;
+  width: 100%; 
+  min-width: 0; 
 }
 
 
 
 .products {
   background-color: #111;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
   gap: 20px;
   padding: 20px;
-  width: 1000 px;
   flex: 1;
+  min-width: 0; 
+  align-content: start;
 }
 
 .rows {
@@ -91,8 +99,7 @@ li a {
 }
 
 .product-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: contents; 
   gap: 20px;
 }
 
@@ -101,7 +108,8 @@ li a {
   border: none;
   border-radius: 8px;
   overflow: hidden;
-  flex: 1 1 200px;
+  min-width: 0;
+  width:100%;
 }
 
 .card img {
@@ -149,8 +157,14 @@ li a {
   background-color: #111;
   width: 200px;
   display: flex;
+  padding: 15px;
   flex-direction: column;
   flex-shrink: 0; 
+  position: sticky;  
+  top: 0;            
+  align-self: flex-start;  
+  max-height: 100vh; 
+  overflow-y: auto;  
 }
 
 .filter{
@@ -220,19 +234,18 @@ cursor: pointer;
             color: #e8c97a;
         }
 
-.sort_by{
-display: flex;
-max-width: 200px;
-padding : 15px;
-align-items: flex-end;
-align-items: end;
-background-color: #111;
+.sort_by {
+  display: flex;
+  max-width: 200px;
+  padding: 15px;
+  align-self: flex-end;  
+  background-color: #111;
 }
 
 .page-content {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: stretch;
   gap: 20px;
   padding: 20px;
 }
