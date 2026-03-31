@@ -117,6 +117,7 @@ li a {
   aspect-ratio: 100/ 43;
   object-fit: cover;}
 
+
 .card-body {
   padding: 1rem;
 }
@@ -177,7 +178,7 @@ color: #c9a84c;
 width: 200px;
 padding: 15px;
 font-size: 16px;
-font-family: sans-serif;
+font-family: 'Cormorant Garamond', 'Georgia', serif;
 border: 0px solid #111;
 border-top: 1px solid rgba(201, 168, 76, 0.18);
 border-bottom: 1px solid rgba(201, 168, 76, 0.18);
@@ -193,7 +194,7 @@ cursor: pointer;
             border-bottom: 1px solid rgba(201, 168, 76, 0.18);
             z-index: 1;
             overflow-y: auto;
-            font-family: sans-serif;
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
             font-size: small;
         }
 
@@ -211,7 +212,7 @@ color: #c9a84c;
 width: 200px;
 padding: 15px;
 font-size: 16px;
-font-family: sans-serif;
+font-family: 'Cormorant Garamond', 'Georgia', serif;
 border: 1px solid rgba(201, 168, 76, 0.18);
 cursor: pointer;
 }
