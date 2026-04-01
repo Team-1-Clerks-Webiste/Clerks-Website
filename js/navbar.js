@@ -101,6 +101,25 @@
     .clerks-navbar .clerks-icons a {
       display: flex;
       align-items: center;
+      position: relative;
+    }
+
+    .clerks-navbar #cart-count {
+      display: none;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 16px;
+      height: 16px;
+      background: #c9922a;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      line-height: 1;
     }
 
     @media (max-width: 780px) {
@@ -190,12 +209,15 @@
       makeImg(ASSETS + "user.png", "", "clerks-icon"),
     ),
   );
-  iconsDiv.appendChild(
-    makeLink(
-      "/pages/checkout.html",
-      makeImg(ASSETS + "shopping-bag.png", "", "clerks-icon"),
-    ),
+  const bagLink = makeLink(
+    "/pages/checkout.html",
+    makeImg(ASSETS + "shopping-bag.png", "", "clerks-icon"),
   );
+  const cartBadge = document.createElement("span");
+  cartBadge.id = "cart-count";
+  cartBadge.textContent = "0";
+  bagLink.appendChild(cartBadge);
+  iconsDiv.appendChild(bagLink);
 
   nav.appendChild(logoDiv);
   nav.appendChild(linksDiv);
