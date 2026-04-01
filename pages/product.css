@@ -90,25 +90,32 @@ li a {
 
 .product-name {
   font-size: 50px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
   color: #c9a84c;
 }
 
 .product-colour {
+  font-family: "Barlow Condensed", sans-serif;
   font-size: 14px;
   color: rgb(220, 220, 220);
 }
 
 .product-price {
+  font-family: "Barlow Condensed", sans-serif;
   font-size: 20px;
   color: rgb(220, 220, 220);
 }
 
 .product-reviews {
+  font-family: "Barlow Condensed", sans-serif;
   font-size: 14px;
   color: rgb(220, 220, 220);
 }
 
 .product-available-colours {
+  font-family: "Barlow Condensed", sans-serif;
   font-size: 20px;
   color: #c9a84c;
 }
@@ -126,11 +133,13 @@ li a {
 }
 
 .product-size {
+  font-family: "Barlow Condensed", sans-serif;
   font-size: 20px;
   color: #c9a84c;
 }
 
 .field_name {
+  font-family: "Barlow Condensed", sans-serif;
   color: rgb(0, 0, 0);
   background-color: rgb(220, 220, 220);
   border: #e0e0e0;
@@ -141,6 +150,7 @@ li a {
 }
 
 .dropdown_content {
+  font-family: "Barlow Condensed", sans-serif;
   display: none;
   max-width: 198px;
   min-width: 0px;
@@ -157,16 +167,19 @@ li a {
 }
 
 .product-description {
+  font-family: "Barlow Condensed", sans-serif;
   font-size: 12px;
   color: rgb(220, 220, 220);
 }
 
 .product-description-title {
+  font-family: "Barlow Condensed", sans-serif;
   font-size: 20px;
   color: #c9a84c;
 }
 
 .add-to-bag {
+  font-family: "Barlow Condensed", sans-serif;
   width: 100%;
   padding: 10px;
   background: transparent;
