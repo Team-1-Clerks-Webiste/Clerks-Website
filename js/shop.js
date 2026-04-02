@@ -29,7 +29,14 @@ async function loadShoes() {
 function createProductCard(shoe, id) {
   const card = document.createElement("div");
   card.className = "card";
-  card.setAttribute("data-shoe-id", id);
+  card.setAttribute("data-shoe-id", shoe.ID);
+  card.style.cursor = "pointer";
+
+  // Navigate to product page when card is clicked (but not the Add to Bag button)
+  card.addEventListener("click", (e) => {
+    if (e.target.closest(".add-to-bag")) return;
+    window.location.href = `product.html?id=${shoe.ID}`;
+  });
 
   const img = document.createElement("img");
   img.src = "../assets/mens_sports.png"; // Default image

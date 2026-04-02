@@ -113,5 +113,34 @@
     <script src="./js/nav.js"></script>
     <script src="./js/footer.js"></script>
     <script src="./js/auth.js"></script>
+    <script>
+      // Make home page cards clickable — navigate to product page
+      document.addEventListener("DOMContentLoaded", async () => {
+        // Fetch all shoes to map names to IDs
+        let shoes = [];
+        try {
+          const res = await fetch("http://127.0.0.1:8000/shoes");
+          shoes = await res.json();
+        } catch (e) {
+          console.error("Could not fetch shoes for linking:", e);
+        }
+
+        document.querySelectorAll(".card").forEach((card) => {
+          card.style.cursor = "pointer";
+          card.addEventListener("click", (e) => {
+            if (e.target.closest(".add-to-bag")) return;
+            const name = card.querySelector(".product-name").textContent.trim();
+            const match = shoes.find(
+              (s) => s.NAME.toLowerCase() === name.toLowerCase(),
+            );
+            if (match) {
+              window.location.href = `./pages/product.html?id=${match.ID}`;
+            } else {
+              window.location.href = `./pages/shop.html`;
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
