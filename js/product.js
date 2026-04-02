@@ -23,6 +23,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.querySelector(".product-available-colours").textContent =
       shoe.COLOR ? `Available Colours: ${shoe.COLOR}` : "";
 
+    // Update main product image
+    const mainImg = document.querySelector(".left_content img");
+    const imgSrc = shoe.IMAGE
+      ? `../${shoe.IMAGE}`
+      : "../assets/mens_sports.png";
+    if (mainImg) {
+      mainImg.src = imgSrc;
+      mainImg.alt = shoe.NAME;
+    }
+
+    // Update colour thumbnail images
+    document.querySelectorAll(".colour-image").forEach((thumb) => {
+      thumb.src = imgSrc;
+      thumb.alt = shoe.NAME;
+    });
+
     // Update description
     const descEl = document.querySelector(".product-description");
     if (descEl) {
@@ -42,7 +58,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           addToBag(
             shoe.NAME,
             `£${shoe.PRICE}`,
-            "../assets/mens_sports.png",
+            shoe.IMAGE ? `../${shoe.IMAGE}` : "../assets/mens_sports.png",
             shoe.ID,
           );
           addBtn.textContent = "Added!";

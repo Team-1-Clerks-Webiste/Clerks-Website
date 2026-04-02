@@ -20,125 +20,98 @@
       </div>
       <div class="hero-empty"></div>
     </section>
-    <section class="catologue">
-      <div class="category">
-        <h2 class="category-heading">Men</h2>
-        <div class="product-grid">
-          <div class="card">
-            <img src="../assets/mens_sports.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Runner Pro X1</p>
-              <p class="product-price">£89.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-          <div class="card">
-            <img src="../assets/mens_casual.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Urban Stride</p>
-              <p class="product-price">£74.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-          <div class="card">
-            <img src="../assets/mens_luxury.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Classic Low</p>
-              <p class="product-price">£64.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category">
-        <h2 class="category-heading">Women</h2>
-        <div class="product-grid">
-          <div class="card">
-            <img src="../assets/womens_sports.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Soft Step Air</p>
-              <p class="product-price">£94.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-          <div class="card">
-            <img src="../assets/womens_casual.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Slim Court</p>
-              <p class="product-price">£79.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-          <div class="card">
-            <img src="../assets/womens_luxury.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Luxe Walk</p>
-              <p class="product-price">£109.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="category">
-        <h2 class="category-heading">Kids</h2>
-        <div class="product-grid">
-          <div class="card">
-            <img src="../assets/kids_sport.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Dino Dash</p>
-              <p class="product-price">£44.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-          <div class="card">
-            <img src="../assets/kids_casual.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Play Runner</p>
-              <p class="product-price">£39.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-          <div class="card">
-            <img src="../assets/kids_luxury.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">School Step</p>
-              <p class="product-price">£34.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <section class="catologue" id="catalogue">
+      <!-- Populated dynamically from API -->
     </section>
     <script src="./js/cart.js"></script>
     <script src="./js/nav.js"></script>
     <script src="./js/footer.js"></script>
     <script src="./js/auth.js"></script>
     <script>
-      // Make home page cards clickable — navigate to product page
       document.addEventListener("DOMContentLoaded", async () => {
-        // Fetch all shoes to map names to IDs
         let shoes = [];
         try {
           const res = await fetch("http://127.0.0.1:8000/shoes");
           shoes = await res.json();
         } catch (e) {
-          console.error("Could not fetch shoes for linking:", e);
+          console.error("Could not fetch shoes:", e);
+          return;
         }
 
-        document.querySelectorAll(".card").forEach((card) => {
-          card.style.cursor = "pointer";
-          card.addEventListener("click", (e) => {
-            if (e.target.closest(".add-to-bag")) return;
-            const name = card.querySelector(".product-name").textContent.trim();
-            const match = shoes.find(
-              (s) => s.NAME.toLowerCase() === name.toLowerCase(),
-            );
-            if (match) {
-              window.location.href = `./pages/product.html?id=${match.ID}`;
-            } else {
-              window.location.href = `./pages/shop.html`;
-            }
+        const catalogue = document.getElementById("catalogue");
+        const categories = ["Men", "Women", "Kids"];
+
+        categories.forEach((cat) => {
+          const catShoes = shoes.filter((s) => s.CATEGORY === cat);
+          if (catShoes.length === 0) return;
+
+          const categoryDiv = document.createElement("div");
+          categoryDiv.className = "category";
+
+          const heading = document.createElement("h2");
+          heading.className = "category-heading";
+          heading.textContent = cat;
+          categoryDiv.appendChild(heading);
+
+          const grid = document.createElement("div");
+          grid.className = "product-grid";
+
+          catShoes.forEach((shoe) => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.style.cursor = "pointer";
+
+            card.addEventListener("click", (e) => {
+              if (e.target.closest(".add-to-bag")) return;
+              window.location.href = `./pages/product.html?id=${shoe.ID}`;
+            });
+
+            const img = document.createElement("img");
+            img.src = `./${shoe.IMAGE}`;
+            img.alt = shoe.NAME;
+
+            const cardBody = document.createElement("div");
+            cardBody.className = "card-body";
+
+            const name = document.createElement("p");
+            name.className = "product-name";
+            name.textContent = shoe.NAME;
+
+            const price = document.createElement("p");
+            price.className = "product-price";
+            price.textContent = `\u00a3${shoe.PRICE}`;
+
+            const btn = document.createElement("button");
+            btn.className = "add-to-bag";
+            btn.textContent = "Add to Bag";
+            btn.addEventListener("click", () => {
+              if (typeof addToBag === "function") {
+                addToBag(
+                  shoe.NAME,
+                  `\u00a3${shoe.PRICE}`,
+                  `./${shoe.IMAGE}`,
+                  shoe.ID,
+                );
+                btn.textContent = "Added!";
+                btn.disabled = true;
+                setTimeout(() => {
+                  btn.textContent = "Add to Bag";
+                  btn.disabled = false;
+                }, 2000);
+                if (typeof updateCounter === "function") updateCounter();
+              }
+            });
+
+            cardBody.appendChild(name);
+            cardBody.appendChild(price);
+            cardBody.appendChild(btn);
+            card.appendChild(img);
+            card.appendChild(cardBody);
+            grid.appendChild(card);
           });
+
+          categoryDiv.appendChild(grid);
+          catalogue.appendChild(categoryDiv);
         });
       });
     </script>
