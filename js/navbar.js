@@ -172,13 +172,13 @@
   linksDiv.className = "clerks-links";
   const ul = document.createElement("ul");
   [
-    { label: "Men", href: null },
-    { label: "Women", href: null },
-    { label: "Children", href: null },
-    { label: "Sport", href: null },
-    { label: "School", href: null },
+    { label: "Men", href: "/pages/shop.html" },
+    { label: "Women", href: "/pages/shop.html" },
+    { label: "Children", href: "/pages/shop.html" },
+    { label: "Sport", href: "/pages/shop.html" },
+    { label: "School", href: "/pages/shop.html" },
     { label: "About", href: "/pages/about-us.html" },
-    { label: "Sale", href: null },
+    { label: "Sale", href: "/pages/shop.html" },
   ].forEach(function (item) {
     const li = document.createElement("li");
     if (item.href) {
