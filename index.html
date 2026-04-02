@@ -67,7 +67,7 @@
             });
 
             const img = document.createElement("img");
-            img.src = `./${shoe.IMAGE}`;
+            img.src = `/${shoe.IMAGE}`;
             img.alt = shoe.NAME;
 
             const cardBody = document.createElement("div");
@@ -89,7 +89,7 @@
                 addToBag(
                   shoe.NAME,
                   `\u00a3${shoe.PRICE}`,
-                  `./${shoe.IMAGE}`,
+                  `/${shoe.IMAGE}`,
                   shoe.ID,
                 );
                 btn.textContent = "Added!";

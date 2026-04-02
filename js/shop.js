@@ -39,7 +39,7 @@ function createProductCard(shoe, id) {
   });
 
   const img = document.createElement("img");
-  img.src = shoe.IMAGE ? `../${shoe.IMAGE}` : "../assets/mens_sports.png";
+  img.src = shoe.IMAGE ? `/${shoe.IMAGE}` : "/assets/mens_sports.png";
   img.alt = shoe.NAME;
 
   const cardBody = document.createElement("div");
@@ -60,7 +60,7 @@ function createProductCard(shoe, id) {
   // Integrate with existing cart functionality
   addButton.addEventListener("click", () => {
     const price = `£${shoe.PRICE}`;
-    const image = shoe.IMAGE ? `../${shoe.IMAGE}` : "../assets/mens_sports.png";
+    const image = shoe.IMAGE ? `/${shoe.IMAGE}` : "/assets/mens_sports.png";
     const shoeId = shoe.ID;
 
     // Call the cart.js function

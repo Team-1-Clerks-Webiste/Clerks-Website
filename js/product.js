@@ -25,9 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Update main product image
     const mainImg = document.querySelector(".left_content img");
-    const imgSrc = shoe.IMAGE
-      ? `../${shoe.IMAGE}`
-      : "../assets/mens_sports.png";
+    const imgSrc = shoe.IMAGE ? `/${shoe.IMAGE}` : "/assets/mens_sports.png";
     if (mainImg) {
       mainImg.src = imgSrc;
       mainImg.alt = shoe.NAME;
@@ -58,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           addToBag(
             shoe.NAME,
             `£${shoe.PRICE}`,
-            shoe.IMAGE ? `../${shoe.IMAGE}` : "../assets/mens_sports.png",
+            shoe.IMAGE ? `/${shoe.IMAGE}` : "/assets/mens_sports.png",
             shoe.ID,
           );
           addBtn.textContent = "Added!";
