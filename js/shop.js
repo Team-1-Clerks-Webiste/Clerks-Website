@@ -1,32 +1,147 @@
-// Fetch shoes from the API and populate the shop
+// ── Shop: Fetch, Filter, Sort, Search ──
+
+let allShoes = []; // master list from API
+
+// Fetch shoes once, then render
 async function loadShoes() {
   try {
     const response = await fetch("http://127.0.0.1:8000/shoes");
-    const shoes = await response.json();
-
-    if (!shoes || shoes.length === 0) {
+    allShoes = await response.json();
+    if (!allShoes || allShoes.length === 0) {
       console.log("No shoes found in the database");
       return;
     }
-
-    // Get the products section
-    const productsSection = document.querySelector(".products");
-
-    // Clear existing product cards
-    productsSection.innerHTML = "";
-
-    // Create cards and append directly to products section
-    shoes.forEach((shoe, index) => {
-      const card = createProductCard(shoe, index + 1);
-      productsSection.appendChild(card);
-    });
+    applyFilters();
   } catch (error) {
     console.error("Error loading shoes:", error);
   }
 }
 
+// ── Gather active filter values ──
+function getCheckedValues(filterName) {
+  const section = document.querySelector(
+    `.filter[data-filter="${filterName}"]`,
+  );
+  if (!section) return [];
+  return Array.from(
+    section.querySelectorAll('input[type="checkbox"]:checked'),
+  ).map((cb) => cb.value.toLowerCase());
+}
+
+function getActiveSortValue() {
+  const checked = document.querySelector(
+    '#sort-section input[type="radio"]:checked',
+  );
+  return checked ? checked.value : "relevance";
+}
+
+function getSearchQuery() {
+  const input = document.querySelector(
+    '.clerks-navbar .clerks-icons input[type="text"]',
+  );
+  return input ? input.value.trim().toLowerCase() : "";
+}
+
+// ── Price-range helper ──
+function matchesPriceRange(price, ranges) {
+  return ranges.some((r) => {
+    if (r === "£100+") return price >= 100;
+    const parts = r.replace(/£/g, "").split("-");
+    const lo = parseFloat(parts[0]);
+    const hi = parseFloat(parts[1]);
+    return price >= lo && price <= hi;
+  });
+}
+
+// ── Main filter / sort / search pipeline ──
+function applyFilters() {
+  const colours = getCheckedValues("colour");
+  const styles = getCheckedValues("style");
+  const materials = getCheckedValues("material");
+  const prices = getCheckedValues("price");
+  const search = getSearchQuery();
+  const sort = getActiveSortValue();
+
+  let filtered = allShoes.filter((shoe) => {
+    // Colour — shoe.COLOR may contain "Black, White"
+    if (colours.length) {
+      const shoeColours = shoe.COLOR.toLowerCase();
+      if (!colours.some((c) => shoeColours.includes(c))) return false;
+    }
+    // Style — shoe.STYLE is e.g. "Sports", "Casual", "Luxury"
+    if (styles.length) {
+      const shoeStyle = shoe.STYLE.toLowerCase();
+      // handle "sport" matching "sports"
+      if (!styles.some((s) => shoeStyle.includes(s))) return false;
+    }
+    // Material — shoe.MATERIAL may contain "Mesh, Rubber"
+    if (materials.length) {
+      const shoeMat = shoe.MATERIAL.toLowerCase();
+      if (!materials.some((m) => shoeMat.includes(m))) return false;
+    }
+    // Price range
+    if (prices.length) {
+      if (!matchesPriceRange(shoe.PRICE, prices)) return false;
+    }
+    // Search
+    if (search) {
+      const haystack = (
+        shoe.NAME +
+        " " +
+        shoe.CATEGORY +
+        " " +
+        shoe.STYLE +
+        " " +
+        shoe.COLOR +
+        " " +
+        shoe.MATERIAL
+      ).toLowerCase();
+      if (!haystack.includes(search)) return false;
+    }
+    return true;
+  });
+
+  // Sort
+  switch (sort) {
+    case "price_high-low":
+      filtered.sort((a, b) => b.PRICE - a.PRICE);
+      break;
+    case "price_low-high":
+      filtered.sort((a, b) => a.PRICE - b.PRICE);
+      break;
+    case "alpha_a-z":
+      filtered.sort((a, b) => a.NAME.localeCompare(b.NAME));
+      break;
+    case "alpha_z-a":
+      filtered.sort((a, b) => b.NAME.localeCompare(a.NAME));
+      break;
+    default:
+      break; // relevance = original API order
+  }
+
+  renderShoes(filtered);
+}
+
+// ── Render cards ──
+function renderShoes(shoes) {
+  const productsSection = document.querySelector(".products");
+  productsSection.innerHTML = "";
+
+  if (shoes.length === 0) {
+    const msg = document.createElement("p");
+    msg.className = "no-results";
+    msg.textContent = "No shoes match your filters.";
+    productsSection.appendChild(msg);
+    return;
+  }
+
+  shoes.forEach((shoe) => {
+    productsSection.appendChild(createProductCard(shoe));
+  });
+}
+
 // Create a product card element
-function createProductCard(shoe, id) {
+function createProductCard(shoe) {
   const card = document.createElement("div");
   card.className = "card";
   card.setAttribute("data-shoe-id", shoe.ID);
@@ -96,5 +211,74 @@ function createProductCard(shoe, id) {
   return card;
 }
 
-// Load shoes when the page loads
-document.addEventListener("DOMContentLoaded", loadShoes);
+// ── Wire up event listeners ──
+document.addEventListener("DOMContentLoaded", () => {
+  loadShoes();
+
+  // Filter checkboxes — re-filter on every change
+  document
+    .querySelectorAll('.filter[data-filter] input[type="checkbox"]')
+    .forEach((cb) => {
+      cb.addEventListener("change", applyFilters);
+    });
+
+  // Sort radio buttons
+  document
+    .querySelectorAll('#sort-section input[type="radio"]')
+    .forEach((rb) => {
+      rb.addEventListener("change", applyFilters);
+    });
+
+  // Click-to-toggle filter dropdowns
+  document.querySelectorAll(".filter .field_name").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const filter = btn.closest(".filter");
+      const wasOpen = filter.classList.contains("open");
+      // Close all filters first
+      document
+        .querySelectorAll(".filter")
+        .forEach((f) => f.classList.remove("open"));
+      document.querySelector(".sort_by")?.classList.remove("open");
+      if (!wasOpen) filter.classList.add("open");
+    });
+  });
+
+  // Click-to-toggle sort dropdown
+  const sortBtn = document.querySelector(".sort_button");
+  if (sortBtn) {
+    sortBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const sortBy = sortBtn.closest(".sort_by");
+      const wasOpen = sortBy.classList.contains("open");
+      document
+        .querySelectorAll(".filter")
+        .forEach((f) => f.classList.remove("open"));
+      sortBy.classList.remove("open");
+      if (!wasOpen) sortBy.classList.add("open");
+    });
+  }
+
+  // Close dropdowns when clicking outside
+  document.addEventListener("click", () => {
+    document
+      .querySelectorAll(".filter")
+      .forEach((f) => f.classList.remove("open"));
+    document.querySelector(".sort_by")?.classList.remove("open");
+  });
+
+  // Prevent clicks inside dropdowns from closing them
+  document
+    .querySelectorAll(".dropdown_content, .sort_content")
+    .forEach((dd) => {
+      dd.addEventListener("click", (e) => e.stopPropagation());
+    });
+
+  // Navbar search bar — filter as you type
+  const searchInput = document.querySelector(
+    '.clerks-navbar .clerks-icons input[type="text"]',
+  );
+  if (searchInput) {
+    searchInput.addEventListener("input", applyFilters);
+  }
+});

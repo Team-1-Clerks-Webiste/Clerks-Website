@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,176 +7,179 @@
     <link rel="stylesheet" href="../styles.css" />
     <title>Clerks - shopping page</title>
   </head>
-  
+
   <body>
-    
     <script src="../js/navbar.js"></script>
 
     <div class="page-content">
-      <section class="sort_by">
+      <section class="sort_by" id="sort-section">
         <button class="sort_button">Sort By</button>
-          <div class="sort_content">
-            <input type="checkbox" id="sort1" 
-            value="relevence"><label for="sort1">  Relevence</label><br>
-            <input type="checkbox" id="sort2" 
-            value="newest"><label for="sort2">  Newest</label><br>
-            <input type="checkbox" id="sort3" 
-            value="price_high-low"><label for="sort3">  Price: High - Low</label><br>
-            <input type="checkbox" id="sort4" 
-            value="price_low-high"><label for="sort4">  Price: Low - High</label><br>
-            <input type="checkbox" id="sort5" 
-            value="alphabeticaly a-z"><label for="sort5">  Alphabeticaly: A - Z</label><br>
-            <input type="checkbox" id="sort5" 
-            value="alphabeticaly z-a"><label for="sort5">  Alphabeticaly: Z - A</label><br>
-          </div>
+        <div class="sort_content">
+          <input type="radio" name="sort" id="sort1" value="relevance" /><label
+            for="sort1"
+          >
+            Relevance</label
+          ><br />
+          <input
+            type="radio"
+            name="sort"
+            id="sort2"
+            value="price_high-low"
+          /><label for="sort2"> Price: High - Low</label><br />
+          <input
+            type="radio"
+            name="sort"
+            id="sort3"
+            value="price_low-high"
+          /><label for="sort3"> Price: Low - High</label><br />
+          <input type="radio" name="sort" id="sort4" value="alpha_a-z" /><label
+            for="sort4"
+          >
+            Alphabetically: A - Z</label
+          ><br />
+          <input type="radio" name="sort" id="sort5" value="alpha_z-a" /><label
+            for="sort5"
+          >
+            Alphabetically: Z - A</label
+          ><br />
+        </div>
       </section>
-    
+
       <div class="filters-and-products">
         <section class="filters">
-              <div class="filter"> 
-                <button class="field_name">Size</button>
-                <div class="dropdown_content">
-                  <input type="checkbox" id="item1"
-                      value="35.5"><label for="item1">  35.5</label><br>
-                  <input type="checkbox" id="item2"
-                      value="37"><label for="item2">  37</label><br>
-                  <input type="checkbox" id="item3"
-                      value="38"><label for="item3">  38</label><br>
-                  <input type="checkbox" id="item4"
-                      value="39.5"><label for="item4">  39.5</label><br>
-                  <input type="checkbox" id="item5"
-                      value="40"><label for="item5">  40</label><br>
-                  <input type="checkbox" id="item6"
-                      value="41"><label for="item6">  41</label><br>
-                  <input type="checkbox" id="item7"
-                      value="41.5"><label for="item7">  41.5</label><br>
-                  <input type="checkbox" id="item8"
-                      value="42"><label for="item8">  42</label><br>
-                  <input type="checkbox" id="item9"
-                      value="42.5"><label for="item9">  42.5</label><br>
-                  <input type="checkbox" id="item10"
-                      value="43"><label for="item10">  43</label><br>
-                  <input type="checkbox" id="item11"
-                      value="44"><label for="item11">  44</label><br>
-                  <input type="checkbox" id="item12"
-                      value="44.5"><label for="item12">  44.5</label><br>
-                  <input type="checkbox" id="item13"
-                      value="45"><label for="item13">  45</label><br>
-                  <input type="checkbox" id="item14"
-                      value="46"><label for="item14">  46</label><br>
-                  <input type="checkbox" id="item15"
-                      value="47"><label for="item15">  47</label><br>
-                </div>
-              </div>
+          <div class="filter" data-filter="colour">
+            <button class="field_name">Colour</button>
+            <div class="dropdown_content">
+              <input type="checkbox" id="colour1" value="black" /><label
+                for="colour1"
+              >
+                Black</label
+              ><br />
+              <input type="checkbox" id="colour2" value="blue" /><label
+                for="colour2"
+              >
+                Blue</label
+              ><br />
+              <input type="checkbox" id="colour3" value="brown" /><label
+                for="colour3"
+              >
+                Brown</label
+              ><br />
+              <input type="checkbox" id="colour4" value="grey" /><label
+                for="colour4"
+              >
+                Grey</label
+              ><br />
+              <input type="checkbox" id="colour5" value="pink" /><label
+                for="colour5"
+              >
+                Pink</label
+              ><br />
+              <input type="checkbox" id="colour6" value="white" /><label
+                for="colour6"
+              >
+                White</label
+              ><br />
+            </div>
+          </div>
 
-              <div class="filter">
-                <button class="field_name">Colour</button>
-                <div class="dropdown_content">
-                  <input type="checkbox" id="item1"
-                      value="black"><label for="item1">  Black</label><br>
-                  <input type="checkbox" id="item2"
-                      value="brown"><label for="item2">  Brown</label><br>
-                  <input type="checkbox" id="item3"
-                      value="blue"><label for="item3">  Blue</label><br>
-                  <input type="checkbox" id="item4"
-                      value="beige"><label for="item4">  Beige</label><br>
-                  <input type="checkbox" id="item5"
-                      value="green"><label for="item5">  Green</label><br>
-                  <input type="checkbox" id="item6"
-                      value="gray"><label for="item6">  Gray</label><br>
-                  <input type="checkbox" id="item7"
-                      value="white"><label for="item7">  White</label><br>
-                  <input type="checkbox" id="item8"
-                      value="multi"><label for="item8">  Multi</label><br>
-                  </select>
-                </div>
-              </div>
+          <div class="filter" data-filter="style">
+            <button class="field_name">Style</button>
+            <div class="dropdown_content">
+              <input type="checkbox" id="item1" value="casual" /><label
+                for="item1"
+              >
+                Casual</label
+              ><br />
+              <input type="checkbox" id="item2" value="sport" /><label
+                for="item2"
+              >
+                Sport</label
+              ><br />
+              <input type="checkbox" id="item3" value="luxury" /><label
+                for="item3"
+              >
+                Luxury</label
+              ><br />
+            </div>
+          </div>
 
-              <div class="filter">
-                <button class="field_name">Style</button>
-                <div class="dropdown_content">
-                  <input type="checkbox" id="item1"
-                      value="casual"><label for="item1">  Casual</label><br>
-                  <input type="checkbox" id="item2"
-                      value="sport"><label for="item2">  Sport</label><br>
-                  <input type="checkbox" id="item3"
-                      value="luxury"><label for="item3">  Luxury</label><br>
-                </div>
-              </div>
+          <div class="filter" data-filter="material">
+            <button class="field_name">Material</button>
+            <div class="dropdown_content">
+              <input type="checkbox" id="material1" value="fabric" /><label
+                for="material1"
+              >
+                Fabric</label
+              ><br />
+              <input type="checkbox" id="material2" value="leather" /><label
+                for="material2"
+              >
+                Leather</label
+              ><br />
+            </div>
+          </div>
 
-              <div class="filter">
-                <button class="field_name">Material</button>
-                <div class="dropdown_content">
-                  <input type="checkbox" id="item1"
-                      value="leather"><label for="item1">  Lether</label><br>
-                  <input type="checkbox" id="item2"
-                      value="ruber"><label for="item2">  Ruber</label><br>
-                  <input type="checkbox" id="item3"
-                      value="foam"><label for="item3">  Foam</label><br>
-                  <input type="checkbox" id="item4"
-                      value="fabric"><label for="item4">  Fabric</label><br>
-                </div>
-              </div>
-
-              <div class="filter">
-                <button class="field_name">Price range</button>
-                <div class="dropdown_content">
-                  <input type="checkbox" id="item1" 
-                  value="£0-£10"><label for="item1">  £0-£10</label><br>
-                  <input type="checkbox" id="item2" 
-                  value="£10-£20"><label for="item2">  £10-£20</label><br>
-                  <input type="checkbox" id="item3" 
-                  value="£20-£30"><label for="item3">  £20-£30</label><br>
-                  <input type="checkbox" id="item4" 
-                  value="£30-£40"><label for="item4">  £30-£40</label><br>
-                  <input type="checkbox" id="item5" 
-                  value="£40-£50"><label for="item5">  £40-£50</label><br>
-                  <input type="checkbox" id="item6" 
-                  value="£50-£60"><label for="item6">  £50-£60</label><br>
-                  <input type="checkbox" id="item7" 
-                  value="£60-£70"><label for="item7">  £60-£70</label><br>
-                  <input type="checkbox" id="item8" 
-                  value="£70-£80"><label for="item8">  £70-£80</label><br>
-                  <input type="checkbox" id="item9" 
-                  value="£80-£90"><label for="item9">  £80-£90</label><br>
-                  <input type="checkbox" id="item10" 
-                  value="£90-£100"><label for="item10">  £90-£100</label><br>
-                  <input type="checkbox" id="item11" 
-                  value="£100+"><label for="item11">  £100+</label><br>
-                </div>
-              </div>
-
-              <div class="filter">
-                <button class="field_name">Rating</button>
-                  <div class="dropdown_content">
-                    <input type="checkbox" id="item1" 
-                    value="5 star"><label for="item1">  5 Star</label><br>
-                    <input type="checkbox" id="item2" 
-                    value="4 star"><label for="item2">  4 Star</label><br>
-                    <input type="checkbox" id="item3" 
-                    value="3 star"><label for="item3">  3 Star</label><br>
-                    <input type="checkbox" id="item4" 
-                    value="2 star"><label for="item4">  2 Star</label><br>
-                    <input type="checkbox" id="item5" 
-                    value="1 star"><label for="item5">  1 Star</label><br>
-                    <input type="checkbox" id="item6" 
-                    value="0 star"><label for="item6">  0 Star</label><br>
-                  </div>
-
-              </div>
-
-              <div class="filter">
-                <button class="field_name">Fastening Type</button>
-                  <div class="dropdown_content">
-                    <input type="checkbox" id="item1" 
-                    value="velcrow"><label for="item1">  Velcrow</label><br>
-                    <input type="checkbox" id="item2" 
-                    value="lace"><label for="item2">  Lace</label><br>
-                    <input type="checkbox" id="item3" 
-                    value="slip on"><label for="item3">  Slip on</label><br>
-                  </div>
-
-              </div>
+          <div class="filter" data-filter="price">
+            <button class="field_name">Price range</button>
+            <div class="dropdown_content">
+              <input type="checkbox" id="item1" value="£0-£10" /><label
+                for="item1"
+              >
+                £0-£10</label
+              ><br />
+              <input type="checkbox" id="item2" value="£10-£20" /><label
+                for="item2"
+              >
+                £10-£20</label
+              ><br />
+              <input type="checkbox" id="item3" value="£20-£30" /><label
+                for="item3"
+              >
+                £20-£30</label
+              ><br />
+              <input type="checkbox" id="item4" value="£30-£40" /><label
+                for="item4"
+              >
+                £30-£40</label
+              ><br />
+              <input type="checkbox" id="item5" value="£40-£50" /><label
+                for="item5"
+              >
+                £40-£50</label
+              ><br />
+              <input type="checkbox" id="item6" value="£50-£60" /><label
+                for="item6"
+              >
+                £50-£60</label
+              ><br />
+              <input type="checkbox" id="item7" value="£60-£70" /><label
+                for="item7"
+              >
+                £60-£70</label
+              ><br />
+              <input type="checkbox" id="item8" value="£70-£80" /><label
+                for="item8"
+              >
+                £70-£80</label
+              ><br />
+              <input type="checkbox" id="item9" value="£80-£90" /><label
+                for="item9"
+              >
+                £80-£90</label
+              ><br />
+              <input type="checkbox" id="item10" value="£90-£100" /><label
+                for="item10"
+              >
+                £90-£100</label
+              ><br />
+              <input type="checkbox" id="item11" value="£100+" /><label
+                for="item11"
+              >
+                £100+</label
+              ><br />
+            </div>
+          </div>
         </section>
 
         <section class="products">
@@ -256,9 +259,9 @@
       </div>
     </div>
 
-  <script src="../js/shop.js"></script>
-  <script src="../js/footer.js"></script>
-  <script src="../js/cart.js"></script>
-  <script src="../js/auth.js"></script>
+    <script src="../js/shop.js"></script>
+    <script src="../js/footer.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/auth.js"></script>
   </body>
 </html>

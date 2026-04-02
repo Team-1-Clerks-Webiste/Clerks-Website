@@ -147,7 +147,7 @@ body {
   font-size: small;
 }
 
-.filter:hover .dropdown_content {
+.filter.open .dropdown_content {
   display: block;
   background-color: #111;
   color: #e8c97a;
@@ -178,7 +178,7 @@ body {
   font-size: small;
 }
 
-.sort_by:hover .sort_content {
+.sort_by.open .sort_content {
   display: block;
   background-color: #111;
   color: #e8c97a;
@@ -190,6 +190,24 @@ body {
   padding: 15px;
   align-self: flex-end;
   background-color: #111;
+  flex-direction: column;
+}
+
+.sort_content input[type="radio"] {
+  accent-color: #c9a84c;
+}
+
+.dropdown_content input[type="checkbox"] {
+  accent-color: #c9a84c;
+}
+
+.no-results {
+  color: #e8c97a;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 40px 20px;
+  text-align: center;
+  grid-column: 1 / -1;
 }
 
 .page-content {
