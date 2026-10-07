@@ -18,6 +18,7 @@ class ShoeCreate(BaseModel):
     style: str
     color: str
     material: str
+    image: str = ""
 
 
 @router.get("/shoes")
@@ -42,8 +43,8 @@ def get_shoe(shoe_id: int):
 def create_shoe(shoe: ShoeCreate):
     conn = get_db()
     conn.execute(
-        "INSERT INTO shoes (NAME, PRICE, CATEGORY, STYLE, COLOR, MATERIAL) VALUES (?, ?, ?, ?, ?, ?)",
-        (shoe.name, shoe.price, shoe.category, shoe.style, shoe.color, shoe.material)
+        "INSERT INTO shoes (NAME, PRICE, CATEGORY, STYLE, COLOR, MATERIAL, IMAGE) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        (shoe.name, shoe.price, shoe.category, shoe.style, shoe.color, shoe.material, shoe.image)
     )
     conn.commit()
     conn.close()
