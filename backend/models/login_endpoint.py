@@ -1,15 +1,9 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-import sqlite3
+from backend.database import supabase
 import hashlib
 
 router = APIRouter()
-
-
-def get_db():
-    conn = sqlite3.connect('clerksdb.db')
-    conn.row_factory = sqlite3.Row
-    return conn
 
 
 def hash_password(password: str) -> str:
@@ -29,28 +23,61 @@ class LoginRequest(BaseModel):
 
 @router.post("/register")
 def register(req: RegisterRequest):
-    conn = get_db()
-    existing = conn.execute("SELECT id FROM users WHERE email = ?", (req.email,)).fetchone()
-    if existing:
-        conn.close()
-        return {"error": "Email already registered"}
-    hashed = hash_password(req.password)
-    conn.execute(
-        "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-        (req.username, req.email, hashed)
+    # Check whether the email is already registered
+    existing = (
+        supabase
+        .table("users")
+        .select("id")
+        .eq("email", req.email)
+        .execute()
     )
-    conn.commit()
-    conn.close()
+
+    if existing.data:
+        return {"error": "Email already registered"}
+
+    # Hash the password before storing it
+    hashed = hash_password(req.password)
+
+    # Insert the new user into Supabase
+    response = (
+        supabase
+        .table("users")
+        .insert({
+            "username": req.username,
+            "email": req.email,
+            "password": hashed
+        })
+        .execute()
+    )
+
+    if not response.data:
+        return {"error": "Failed to register user"}
+
     return {"message": "User registered successfully"}
 
 
 @router.post("/login")
 def login(req: LoginRequest):
-    conn = get_db()
-    user = conn.execute("SELECT * FROM users WHERE email = ?", (req.email,)).fetchone()
-    conn.close()
-    if user is None:
+    # Find the user by email
+    response = (
+        supabase
+        .table("users")
+        .select("*")
+        .eq("email", req.email)
+        .execute()
+    )
+
+    if not response.data:
         return {"error": "Invalid email or password"}
+
+    user = response.data[0]
+
+    # Check the password
     if user["password"] != hash_password(req.password):
         return {"error": "Invalid email or password"}
-    return {"message": "Login successful", "user_id": user["id"], "username": user["username"]}
+
+    return {
+        "message": "Login successful",
+        "user_id": user["id"],
+        "username": user["username"]
+    }
