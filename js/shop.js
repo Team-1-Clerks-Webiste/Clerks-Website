@@ -63,38 +63,38 @@ function applyFilters() {
   const sort = getActiveSortValue();
 
   let filtered = allShoes.filter((shoe) => {
-    // Colour — shoe.COLOR may contain "Black, White"
+    // Colour — shoe.color may contain "Black, White"
     if (colours.length) {
-      const shoeColours = shoe.COLOR.toLowerCase();
+      const shoeColours = shoe.color.toLowerCase();
       if (!colours.some((c) => shoeColours.includes(c))) return false;
     }
-    // Style — shoe.STYLE is e.g. "Sports", "Casual", "Luxury"
+    // Style — shoe.style is e.g. "Sports", "Casual", "Luxury"
     if (styles.length) {
-      const shoeStyle = shoe.STYLE.toLowerCase();
+      const shoeStyle = shoe.style.toLowerCase();
       // handle "sport" matching "sports"
       if (!styles.some((s) => shoeStyle.includes(s))) return false;
     }
-    // Material — shoe.MATERIAL may contain "Mesh, Rubber"
+    // Material — shoe.material may contain "Mesh, Rubber"
     if (materials.length) {
-      const shoeMat = shoe.MATERIAL.toLowerCase();
+      const shoeMat = shoe.material.toLowerCase();
       if (!materials.some((m) => shoeMat.includes(m))) return false;
     }
     // Price range
     if (prices.length) {
-      if (!matchesPriceRange(shoe.PRICE, prices)) return false;
+      if (!matchesPriceRange(shoe.price, prices)) return false;
     }
     // Search
     if (search) {
       const haystack = (
-        shoe.NAME +
+        shoe.name +
         " " +
         shoe.CATEGORY +
         " " +
-        shoe.STYLE +
+        shoe.style +
         " " +
-        shoe.COLOR +
+        shoe.color +
         " " +
-        shoe.MATERIAL
+        shoe.material
       ).toLowerCase();
       if (!haystack.includes(search)) return false;
     }
@@ -144,29 +144,29 @@ function renderShoes(shoes) {
 function createProductCard(shoe) {
   const card = document.createElement("div");
   card.className = "card";
-  card.setAttribute("data-shoe-id", shoe.ID);
+  card.setAttribute("data-shoe-id", shoe.id);
   card.style.cursor = "pointer";
 
   // Navigate to product page when card is clicked (but not the Add to Bag button)
   card.addEventListener("click", (e) => {
     if (e.target.closest(".add-to-bag")) return;
-    window.location.href = `product.html?id=${shoe.ID}`;
+    window.location.href = `product.html?id=${shoe.id}`;
   });
 
   const img = document.createElement("img");
-  img.src = shoe.IMAGE ? `/${shoe.IMAGE}` : "/assets/mens_sports.png";
-  img.alt = shoe.NAME;
+  img.src = shoe.image ? `/${shoe.image}` : "/assets/mens_sports.png";
+  img.alt = shoe.name;
 
   const cardBody = document.createElement("div");
   cardBody.className = "card-body";
 
   const productName = document.createElement("p");
   productName.className = "product-name";
-  productName.textContent = shoe.NAME;
+  productName.textContent = shoe.name;
 
   const productPrice = document.createElement("p");
   productPrice.className = "product-price";
-  productPrice.textContent = `£${shoe.PRICE}`;
+  productPrice.textContent = `£${shoe.price}`;
 
   const addButton = document.createElement("button");
   addButton.className = "add-to-bag";
@@ -174,13 +174,13 @@ function createProductCard(shoe) {
 
   // Integrate with existing cart functionality
   addButton.addEventListener("click", () => {
-    const price = `£${shoe.PRICE}`;
-    const image = shoe.IMAGE ? `/${shoe.IMAGE}` : "/assets/mens_sports.png";
-    const shoeId = shoe.ID;
+    const price = `£${shoe.price}`;
+    const image = shoe.image ? `/${shoe.image}` : "/assets/mens_sports.png";
+    const shoeId = shoe.id;
 
     // Call the cart.js function
     if (typeof addToBag === "function") {
-      addToBag(shoe.NAME, price, image, shoeId);
+      addToBag(shoe.name, price, image, shoeId);
 
       // Update button feedback
       addButton.textContent = "Added!";

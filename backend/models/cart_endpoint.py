@@ -1,14 +1,8 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-import sqlite3
+from backend.database import supabase
 
 router = APIRouter()
-
-
-def get_db():
-    conn = sqlite3.connect('clerksdb.db')
-    conn.row_factory = sqlite3.Row
-    return conn
 
 
 class CartItem(BaseModel):
@@ -19,35 +13,60 @@ class CartItem(BaseModel):
 
 @router.get("/cart/{user_id}")
 def get_cart(user_id: int):
-    conn = get_db()
-    items = conn.execute(
-        """SELECT cart.id, cart.shoe_id, cart.quantity, shoes.NAME as name, shoes.PRICE as price
-           FROM cart JOIN shoes ON cart.shoe_id = shoes.ID
-           WHERE cart.user_id = ?""",
-        (user_id,)
-    ).fetchall()
-    conn.close()
-    return [dict(item) for item in items]
+    response = (
+        supabase
+        .table("cart")
+        .select("id, shoe_id, quantity, shoes(name, price)")
+        .eq("user_id", user_id)
+        .execute()
+    )
+
+    cart_items = []
+
+    for item in response.data:
+        shoe = item.get("shoes") or {}
+
+        cart_items.append({
+            "id": item["id"],
+            "shoe_id": item["shoe_id"],
+            "quantity": item["quantity"],
+            "name": shoe.get("name"),
+            "price": shoe.get("price")
+        })
+
+    return cart_items
 
 
 @router.post("/cart")
 def add_to_cart(item: CartItem):
-    conn = get_db()
-    conn.execute(
-        "INSERT INTO cart (user_id, shoe_id, quantity) VALUES (?, ?, ?)",
-        (item.user_id, item.shoe_id, item.quantity)
+    response = (
+        supabase
+        .table("cart")
+        .insert({
+            "user_id": item.user_id,
+            "shoe_id": item.shoe_id,
+            "quantity": item.quantity
+        })
+        .execute()
     )
-    conn.commit()
-    conn.close()
+
+    if not response.data:
+        return {"error": "Failed to add item to cart"}
+
     return {"message": "Item added to cart"}
 
 
 @router.delete("/cart/{cart_id}")
 def remove_from_cart(cart_id: int):
-    conn = get_db()
-    result = conn.execute("DELETE FROM cart WHERE id = ?", (cart_id,))
-    conn.commit()
-    conn.close()
-    if result.rowcount == 0:
+    response = (
+        supabase
+        .table("cart")
+        .delete()
+        .eq("id", cart_id)
+        .execute()
+    )
+
+    if not response.data:
         return {"error": "Cart item not found"}
+
     return {"message": "Item removed from cart"}
