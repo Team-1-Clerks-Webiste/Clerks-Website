@@ -19,7 +19,7 @@ function updateCounter() {
 
 function addToBag(name, price, image, shoeId) {
   const cart = getCart();
-  cart.push({ name, price, image });
+  cart.push({ name, price, image, id: shoeId });
   saveCart(cart);
   updateCounter();
 
@@ -94,6 +94,28 @@ function createProductCard(shoe) {
   body.append(meta, name, price, btn);
   card.append(media, body);
   return card;
+}
+
+// Fill a recommendations section (".recs") with picks for a shoe; hides it on failure
+async function loadRecommendations(shoeId, section, limit = 4) {
+  const grid = section.querySelector(".product-grid");
+  const reason = section.querySelector(".recs__reason");
+  section.hidden = false;
+  grid.innerHTML = '<div class="skeleton"></div>'.repeat(limit);
+
+  try {
+    const res = await fetch(`${CART_API}/ai/recommendations/${shoeId}?limit=${limit}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (!data.products || data.products.length === 0) throw new Error("No recommendations");
+
+    grid.innerHTML = "";
+    data.products.forEach((shoe) => grid.appendChild(createProductCard(shoe)));
+    if (reason) reason.textContent = data.reason || "";
+  } catch (error) {
+    console.error("Could not load recommendations:", error);
+    section.hidden = true;
+  }
 }
 
 document.addEventListener("DOMContentLoaded", updateCounter);

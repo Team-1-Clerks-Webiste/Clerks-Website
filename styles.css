@@ -525,3 +525,20 @@ select.input {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Recommendations ───────────────────────────────── */
+.recs {
+  margin-top: var(--s-16);
+  padding-top: var(--s-12);
+  border-top: 1px solid var(--border);
+}
+
+.recs[hidden] {
+  display: none;
+}
+
+.recs__reason {
+  margin-top: var(--s-2);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}

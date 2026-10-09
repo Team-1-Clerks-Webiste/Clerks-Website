@@ -110,6 +110,17 @@
         </div>
       </aside>
       </div>
+
+      <section class="recs" id="recs" hidden>
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Picked for you</span>
+            <h2 class="section-heading">Complete your order</h2>
+            <p class="recs__reason"></p>
+          </div>
+        </div>
+        <div class="product-grid"></div>
+      </section>
     </main>
 
     <script src="../js/cart.js"></script>
@@ -133,6 +144,7 @@
               price: parseFloat(item.price.replace(/[^0-9.]/g, "")),
               priceStr: item.price,
               image: item.image,
+              id: item.id,
               qty: 1,
             });
           }
@@ -149,6 +161,7 @@
               name: item.name,
               price: item.priceStr,
               image: item.image,
+              id: item.id,
             });
           }
         });
@@ -212,9 +225,11 @@
         const items = document.querySelectorAll(".cart-item");
         items[idx].classList.add("removing");
         setTimeout(() => {
+          const removedFirst = idx === cart.findIndex((item) => item.id);
           cart.splice(idx, 1);
           saveCartToStorage();
           renderCart();
+          if (removedFirst) loadBagRecommendations();
         }, 280);
       }
 
@@ -282,10 +297,23 @@
         updateTotals();
       }
 
+      /* ── Recommendations for the first item in the bag ── */
+      function loadBagRecommendations() {
+        const first = cart.find((item) => item.id);
+        const section = document.getElementById("recs");
+        if (!first) {
+          section.hidden = true;
+          return;
+        }
+        loadRecommendations(first.id, section);
+      }
+
       /* ── Init ── */
       cart = buildCart();
       renderCart();
+      loadBagRecommendations();
     </script>
     <script src="../js/footer.js"></script>
+    <script src="../js/assistant.js"></script>
   </body>
 </html>

@@ -76,6 +76,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     spec.append(dt, dd);
   });
 
+  // Recommendations
+  loadRecommendations(shoe.id, document.getElementById("recs"));
+
   // Size selection
   let selectedSize = null;
   const sizeMsg = document.getElementById("size-msg");

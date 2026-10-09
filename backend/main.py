@@ -10,6 +10,7 @@ from backend.models.shoe_endpoint import router as shoes_router
 from backend.models.login_endpoint import router as auth_router
 from backend.models.cart_endpoint import router as cart_router
 from backend.models.orders_endpoint import router as orders_router
+from backend.models.ai_endpoint import router as ai_router
 
 app = FastAPI()
 
@@ -30,6 +31,7 @@ app.include_router(shoes_router)
 app.include_router(auth_router)
 app.include_router(cart_router)
 app.include_router(orders_router)
+app.include_router(ai_router)
 
 @app.get("/")
 def home():
