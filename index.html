@@ -4,114 +4,134 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
-    <title>Clerks</title>
+    <link rel="stylesheet" href="home.css" />
+    <title>Clerks — Premium Footwear</title>
   </head>
   <body>
     <script src="./js/navbar.js"></script>
 
-    <section class="hero">
-      <div class="hero-content">
-        <span class="hero-label">NEW COLLECTION</span>
-        <h1>Step Into<br />Your Perfect Pair</h1>
-        <p class="hero-subtitle">Premium footwear for every occasion.</p>
-        <a href="./pages/shop.html"
-          ><button class="btn shop">Shop Now</button></a
-        >
+    <main>
+      <section class="hero">
+        <div class="container hero-content">
+          <span class="eyebrow">New Collection</span>
+          <h1>Step into<br />your perfect pair</h1>
+          <p class="hero-subtitle">
+            Premium footwear crafted for comfort and built to last — for men,
+            women and kids.
+          </p>
+          <div class="hero-actions">
+            <a href="./pages/shop.html" class="btn btn--primary btn--lg"
+              >Shop Now</a
+            >
+            <a href="./pages/about-us.html" class="btn btn--ghost btn--lg"
+              >Our Story</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="perks">
+        <div class="container perks-grid">
+          <div class="perk">
+            <span class="perk-title">Free UK delivery</span>
+            <span class="perk-text">On all orders over £50</span>
+          </div>
+          <div class="perk">
+            <span class="perk-title">30-day returns</span>
+            <span class="perk-text">Hassle-free exchanges</span>
+          </div>
+          <div class="perk">
+            <span class="perk-title">Since 1825</span>
+            <span class="perk-text">Two centuries of craft</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <span class="eyebrow">Explore</span>
+              <h2 class="section-heading">Shop by category</h2>
+            </div>
+          </div>
+          <div class="category-tiles">
+            <a class="category-tile" href="./pages/shop.html?category=Men">
+              <img src="./assets/mens_casual.png" alt="Men's shoes" />
+              <span class="category-tile__label">Men</span>
+            </a>
+            <a class="category-tile" href="./pages/shop.html?category=Women">
+              <img src="./assets/womens_casual.png" alt="Women's shoes" />
+              <span class="category-tile__label">Women</span>
+            </a>
+            <a class="category-tile" href="./pages/shop.html?category=Kids">
+              <img src="./assets/kids_casual.png" alt="Kids' shoes" />
+              <span class="category-tile__label">Kids</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <div id="catalogue">
+        <section class="section section--tight">
+          <div class="container product-grid">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+          </div>
+        </section>
       </div>
-      <div class="hero-empty"></div>
-    </section>
-    <section class="catologue" id="catalogue">
-      <!-- Populated dynamically from API -->
-    </section>
+    </main>
+
     <script src="./js/cart.js"></script>
     <script src="./js/nav.js"></script>
     <script src="./js/footer.js"></script>
     <script src="./js/auth.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", async () => {
+        const catalogue = document.getElementById("catalogue");
         let shoes = [];
         try {
           const res = await fetch("http://127.0.0.1:8000/shoes");
           shoes = await res.json();
         } catch (e) {
           console.error("Could not fetch shoes:", e);
+        }
+
+        catalogue.innerHTML = "";
+
+        if (!Array.isArray(shoes) || shoes.length === 0) {
+          catalogue.innerHTML = `
+            <section class="section section--tight">
+              <div class="container">
+                <p class="empty-state">We couldn't load our latest styles right now. Please try again shortly.</p>
+              </div>
+            </section>`;
           return;
         }
 
-        const catalogue = document.getElementById("catalogue");
-        const categories = ["Men", "Women", "Kids"];
-
-        categories.forEach((cat) => {
-          const catShoes = shoes.filter((s) => s.CATEGORY === cat);
+        ["Men", "Women", "Kids"].forEach((cat) => {
+          const catShoes = shoes.filter((s) => s.category === cat);
           if (catShoes.length === 0) return;
 
-          const categoryDiv = document.createElement("div");
-          categoryDiv.className = "category";
+          const section = document.createElement("section");
+          section.className = "section section--tight";
+          section.innerHTML = `
+            <div class="container">
+              <div class="section-head">
+                <h2 class="section-heading">${cat}</h2>
+                <a class="section-link" href="./pages/shop.html?category=${cat}">View all →</a>
+              </div>
+              <div class="product-grid"></div>
+            </div>`;
 
-          const heading = document.createElement("h2");
-          heading.className = "category-heading";
-          heading.textContent = cat;
-          categoryDiv.appendChild(heading);
-
-          const grid = document.createElement("div");
-          grid.className = "product-grid";
-
-          catShoes.forEach((shoe) => {
-            const card = document.createElement("div");
-            card.className = "card";
-            card.style.cursor = "pointer";
-
-            card.addEventListener("click", (e) => {
-              if (e.target.closest(".add-to-bag")) return;
-              window.location.href = `./pages/product.html?id=${shoe.ID}`;
-            });
-
-            const img = document.createElement("img");
-            img.src = `/${shoe.IMAGE}`;
-            img.alt = shoe.NAME;
-
-            const cardBody = document.createElement("div");
-            cardBody.className = "card-body";
-
-            const name = document.createElement("p");
-            name.className = "product-name";
-            name.textContent = shoe.NAME;
-
-            const price = document.createElement("p");
-            price.className = "product-price";
-            price.textContent = `\u00a3${shoe.PRICE}`;
-
-            const btn = document.createElement("button");
-            btn.className = "add-to-bag";
-            btn.textContent = "Add to Bag";
-            btn.addEventListener("click", () => {
-              if (typeof addToBag === "function") {
-                addToBag(
-                  shoe.NAME,
-                  `\u00a3${shoe.PRICE}`,
-                  `/${shoe.IMAGE}`,
-                  shoe.ID,
-                );
-                btn.textContent = "Added!";
-                btn.disabled = true;
-                setTimeout(() => {
-                  btn.textContent = "Add to Bag";
-                  btn.disabled = false;
-                }, 2000);
-                if (typeof updateCounter === "function") updateCounter();
-              }
-            });
-
-            cardBody.appendChild(name);
-            cardBody.appendChild(price);
-            cardBody.appendChild(btn);
-            card.appendChild(img);
-            card.appendChild(cardBody);
-            grid.appendChild(card);
+          const grid = section.querySelector(".product-grid");
+          catShoes.slice(0, 4).forEach((shoe) => {
+            grid.appendChild(createProductCard(shoe));
           });
 
-          categoryDiv.appendChild(grid);
-          catalogue.appendChild(categoryDiv);
+          catalogue.appendChild(section);
         });
       });
     </script>

@@ -1,77 +1,105 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const shoeId = params.get("id");
+  const title = document.getElementById("product-title");
+
+  function showError(message) {
+    title.textContent = "Not found";
+    document.getElementById("crumb-name").textContent = "Not found";
+    document.getElementById("product-price").textContent = "";
+    document.querySelector(".details").insertAdjacentHTML(
+      "beforeend",
+      `<p class="empty-state">${message} <a href="/pages/shop.html">Back to shop</a></p>`,
+    );
+    document.querySelector(".size-picker").remove();
+    document.getElementById("add-to-bag").remove();
+  }
 
   if (!shoeId) {
-    console.error("No shoe ID provided");
+    showError("No product selected.");
     return;
   }
 
+  let shoe;
   try {
     const response = await fetch(`http://127.0.0.1:8000/shoes/${shoeId}`);
-    const shoe = await response.json();
-
-    if (shoe.error) {
-      console.error("Shoe not found");
-      return;
-    }
-
-    // Populate product page
-    document.querySelector(".product-name").textContent = shoe.NAME;
-    document.querySelector(".product-price").textContent = `£${shoe.PRICE}`;
-    document.querySelector(".product-colour").textContent = shoe.COLOR || "";
-    document.querySelector(".product-available-colours").textContent =
-      shoe.COLOR ? `Available Colours: ${shoe.COLOR}` : "";
-
-    // Update main product image
-    const mainImg = document.querySelector(".left_content img");
-    const imgSrc = shoe.IMAGE ? `/${shoe.IMAGE}` : "/assets/mens_sports.png";
-    if (mainImg) {
-      mainImg.src = imgSrc;
-      mainImg.alt = shoe.NAME;
-    }
-
-    // Update colour thumbnail images
-    document.querySelectorAll(".colour-image").forEach((thumb) => {
-      thumb.src = imgSrc;
-      thumb.alt = shoe.NAME;
-    });
-
-    // Update description
-    const descEl = document.querySelector(".product-description");
-    if (descEl) {
-      descEl.textContent = shoe.MATERIAL
-        ? `Material: ${shoe.MATERIAL}. Category: ${shoe.CATEGORY}. Style: ${shoe.STYLE}.`
-        : "";
-    }
-
-    // Update page title
-    document.title = `Clerks - ${shoe.NAME}`;
-
-    // Set up Add to Bag button
-    const addBtn = document.querySelector(".add-to-bag");
-    if (addBtn) {
-      addBtn.addEventListener("click", () => {
-        if (typeof addToBag === "function") {
-          addToBag(
-            shoe.NAME,
-            `£${shoe.PRICE}`,
-            shoe.IMAGE ? `/${shoe.IMAGE}` : "/assets/mens_sports.png",
-            shoe.ID,
-          );
-          addBtn.textContent = "Added!";
-          addBtn.disabled = true;
-          setTimeout(() => {
-            addBtn.textContent = "Add to Bag";
-            addBtn.disabled = false;
-          }, 2000);
-          if (typeof updateCounter === "function") {
-            updateCounter();
-          }
-        }
-      });
-    }
+    shoe = await response.json();
   } catch (error) {
     console.error("Error loading product:", error);
+    showError("We couldn't load this product right now.");
+    return;
   }
+
+  if (!shoe || shoe.error) {
+    showError("We couldn't find that shoe.");
+    return;
+  }
+
+  const imgSrc = shoeImage(shoe);
+
+  // Populate product page
+  document.title = `${shoe.name} — Clerks`;
+  title.textContent = shoe.name;
+  document.getElementById("product-meta").textContent = [shoe.category, shoe.style]
+    .filter(Boolean)
+    .join(" · ");
+  document.getElementById("product-price").textContent = `£${shoe.price}`;
+  document.getElementById("product-colour").textContent = shoe.color
+    ? `Colour: ${shoe.color}`
+    : "";
+
+  const mainImg = document.getElementById("main-image");
+  mainImg.src = imgSrc;
+  mainImg.alt = shoe.name;
+
+  // Breadcrumb
+  document.getElementById("crumb-name").textContent = shoe.name;
+  if (shoe.category) {
+    const crumb = document.getElementById("crumb-category");
+    crumb.textContent = shoe.category;
+    crumb.href = `/pages/shop.html?category=${encodeURIComponent(shoe.category)}`;
+  }
+
+  // Details list
+  const spec = document.getElementById("spec-list");
+  [
+    ["Category", shoe.category],
+    ["Style", shoe.style],
+    ["Colour", shoe.color],
+    ["Material", shoe.material],
+  ].forEach(([label, value]) => {
+    if (!value) return;
+    const dt = document.createElement("dt");
+    dt.textContent = label;
+    const dd = document.createElement("dd");
+    dd.textContent = value;
+    spec.append(dt, dd);
+  });
+
+  // Size selection
+  let selectedSize = null;
+  const sizeMsg = document.getElementById("size-msg");
+  const sizeLabel = document.getElementById("size-selected");
+  document.querySelectorAll(".size-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document
+        .querySelectorAll(".size-btn")
+        .forEach((b) => b.classList.remove("is-selected"));
+      btn.classList.add("is-selected");
+      selectedSize = btn.dataset.size;
+      sizeLabel.textContent = selectedSize;
+      sizeMsg.textContent = "";
+    });
+  });
+
+  // Add to Bag
+  const addBtn = document.getElementById("add-to-bag");
+  addBtn.addEventListener("click", () => {
+    if (!selectedSize) {
+      sizeMsg.textContent = "Please select a size.";
+      return;
+    }
+    addToBag(shoe.name, `£${shoe.price}`, imgSrc, shoe.id);
+    flashAdded(addBtn);
+  });
 });

@@ -37,11 +37,8 @@ function updateNavAuth() {
   loginLink.title = "My account";
 
   const greeting = document.createElement("span");
+  greeting.className = "nav-greeting";
   greeting.textContent = "Hi, " + username;
-  greeting.style.fontSize = "12px";
-  greeting.style.color = "#c9922a";
-  greeting.style.marginRight = "4px";
-  greeting.style.whiteSpace = "nowrap";
 
   loginLink.parentNode.insertBefore(greeting, loginLink);
 }

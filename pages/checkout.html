@@ -1,16 +1,23 @@
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>Checkout Page</title>
-    <link rel="stylesheet" href="../styles.css" />
-    <link rel="stylesheet" href="checkout.css" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="checkout.css" />
+    <title>Your Bag — Clerks</title>
   </head>
   <body>
     <script src="../js/navbar.js"></script>
     <script src="../js/auth.js"></script>
 
-    <main class="checkout-layout">
+    <main class="container checkout">
+      <header class="page-header">
+        <span class="eyebrow">Checkout · Step 1 of 2</span>
+        <h1>Your Bag</h1>
+      </header>
+
+      <div class="checkout-layout">
       <!-- LEFT: cart items -->
       <section class="cart-section" aria-label="Cart items">
         <div class="section-label">
@@ -20,9 +27,8 @@
         <ul class="cart-list" id="cart-list"></ul>
 
         <div class="empty-state" id="empty-state">
-          <p>
-            Your bag is empty. <a href="../index.html">Continue shopping</a>
-          </p>
+          <p>Your bag is empty.</p>
+          <a href="./shop.html" class="btn btn--primary">Start shopping</a>
         </div>
       </section>
 
@@ -56,12 +62,12 @@
             <input
               type="text"
               id="promo-input"
-              class="promo-input"
+              class="input promo-input"
               placeholder="Promo code"
               autocomplete="off"
               onkeydown="if (event.key === 'Enter') applyPromo();"
             />
-            <button class="promo-apply-btn" onclick="applyPromo()">
+            <button class="btn btn--ghost promo-apply-btn" onclick="applyPromo()">
               Apply
             </button>
           </div>
@@ -70,36 +76,8 @@
           <div class="summary-divider"></div>
 
           <a href="payment.html" class="proceed-link" id="proceed-link">
-            <button class="pay-btn" id="pay-btn" disabled>
-              <span class="corner tl"></span>
-              <span class="corner tr"></span>
-              <span class="corner bl"></span>
-              <span class="corner br"></span>
-              <span class="btn-inner">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect
-                    x="1"
-                    y="3.5"
-                    width="14"
-                    height="9"
-                    rx="1.5"
-                    stroke="currentColor"
-                    stroke-width="1.2"
-                  />
-                  <path
-                    d="M1 6.5h14"
-                    stroke="currentColor"
-                    stroke-width="1.2"
-                  />
-                </svg>
-                Proceed to Payment
-              </span>
+            <button class="btn btn--primary btn--lg btn--block pay-btn" id="pay-btn" disabled>
+              Proceed to Payment
             </button>
           </a>
 
@@ -118,19 +96,20 @@
                 width="8.8"
                 height="6.8"
                 rx="1"
-                stroke="#6b5a2e"
+                stroke="currentColor"
                 stroke-width="1"
               />
               <path
                 d="M2.5 4.6V3A2.5 2.5 0 0 1 7.5 3v1.6"
-                stroke="#6b5a2e"
+                stroke="currentColor"
                 stroke-width="1"
               />
             </svg>
-            256-bit SSL · Secure encrypted checkout
+            Secure encrypted checkout
           </p>
         </div>
       </aside>
+      </div>
     </main>
 
     <script src="../js/cart.js"></script>

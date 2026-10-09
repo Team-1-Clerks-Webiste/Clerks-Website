@@ -3,265 +3,112 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="shop.css" />
     <link rel="stylesheet" href="../styles.css" />
-    <title>Clerks - shopping page</title>
+    <link rel="stylesheet" href="shop.css" />
+    <title>Shop — Clerks</title>
   </head>
 
   <body>
     <script src="../js/navbar.js"></script>
 
-    <div class="page-content">
-      <section class="sort_by" id="sort-section">
-        <button class="sort_button">Sort By</button>
-        <div class="sort_content">
-          <input type="radio" name="sort" id="sort1" value="relevance" /><label
-            for="sort1"
-          >
-            Relevance</label
-          ><br />
-          <input
-            type="radio"
-            name="sort"
-            id="sort2"
-            value="price_high-low"
-          /><label for="sort2"> Price: High - Low</label><br />
-          <input
-            type="radio"
-            name="sort"
-            id="sort3"
-            value="price_low-high"
-          /><label for="sort3"> Price: Low - High</label><br />
-          <input type="radio" name="sort" id="sort4" value="alpha_a-z" /><label
-            for="sort4"
-          >
-            Alphabetically: A - Z</label
-          ><br />
-          <input type="radio" name="sort" id="sort5" value="alpha_z-a" /><label
-            for="sort5"
-          >
-            Alphabetically: Z - A</label
-          ><br />
-        </div>
-      </section>
+    <main class="container shop">
+      <header class="page-header shop-header">
+        <span class="eyebrow">The Collection</span>
+        <h1 id="shop-title">Shop All</h1>
+        <p>Every style, every size, crafted for comfort.</p>
+      </header>
 
-      <div class="filters-and-products">
-        <section class="filters">
-          <div class="filter" data-filter="colour">
-            <button class="field_name">Colour</button>
-            <div class="dropdown_content">
-              <input type="checkbox" id="colour1" value="black" /><label
-                for="colour1"
-              >
-                Black</label
-              ><br />
-              <input type="checkbox" id="colour2" value="blue" /><label
-                for="colour2"
-              >
-                Blue</label
-              ><br />
-              <input type="checkbox" id="colour3" value="brown" /><label
-                for="colour3"
-              >
-                Brown</label
-              ><br />
-              <input type="checkbox" id="colour4" value="grey" /><label
-                for="colour4"
-              >
-                Grey</label
-              ><br />
-              <input type="checkbox" id="colour5" value="pink" /><label
-                for="colour5"
-              >
-                Pink</label
-              ><br />
-              <input type="checkbox" id="colour6" value="white" /><label
-                for="colour6"
-              >
-                White</label
-              ><br />
-            </div>
+      <div class="shop-layout">
+        <aside class="filters" aria-label="Filters">
+          <div class="filters__head">
+            <span class="filters__heading">Filters</span>
+            <button type="button" class="filters__clear" id="clear-filters">
+              Clear all
+            </button>
           </div>
+          <details class="filter" data-filter="category" open>
+            <summary class="filter__title">Category</summary>
+            <div class="filter__options">
+              <label class="check"><input type="checkbox" value="men" /><span>Men</span></label>
+              <label class="check"><input type="checkbox" value="women" /><span>Women</span></label>
+              <label class="check"><input type="checkbox" value="kids" /><span>Kids</span></label>
+            </div>
+          </details>
+          <details class="filter" data-filter="style" open>
+            <summary class="filter__title">Style</summary>
+            <div class="filter__options">
+              <label class="check"><input type="checkbox" value="casual" /><span>Casual</span></label>
+              <label class="check"><input type="checkbox" value="sport" /><span>Sport</span></label>
+              <label class="check"><input type="checkbox" value="luxury" /><span>Luxury</span></label>
+            </div>
+          </details>
+          <details class="filter" data-filter="colour">
+            <summary class="filter__title">Colour</summary>
+            <div class="filter__options">
+              <label class="check"><input type="checkbox" value="black" /><span>Black</span></label>
+              <label class="check"><input type="checkbox" value="blue" /><span>Blue</span></label>
+              <label class="check"><input type="checkbox" value="brown" /><span>Brown</span></label>
+              <label class="check"><input type="checkbox" value="grey" /><span>Grey</span></label>
+              <label class="check"><input type="checkbox" value="pink" /><span>Pink</span></label>
+              <label class="check"><input type="checkbox" value="white" /><span>White</span></label>
+            </div>
+          </details>
+          <details class="filter" data-filter="material">
+            <summary class="filter__title">Material</summary>
+            <div class="filter__options">
+              <label class="check"><input type="checkbox" value="fabric" /><span>Fabric</span></label>
+              <label class="check"><input type="checkbox" value="leather" /><span>Leather</span></label>
+            </div>
+          </details>
+          <details class="filter" data-filter="price">
+            <summary class="filter__title">Price</summary>
+            <div class="filter__options">
+              <label class="check"><input type="checkbox" value="£0-£10" /><span>£0 – £10</span></label>
+              <label class="check"><input type="checkbox" value="£10-£20" /><span>£10 – £20</span></label>
+              <label class="check"><input type="checkbox" value="£20-£30" /><span>£20 – £30</span></label>
+              <label class="check"><input type="checkbox" value="£30-£40" /><span>£30 – £40</span></label>
+              <label class="check"><input type="checkbox" value="£40-£50" /><span>£40 – £50</span></label>
+              <label class="check"><input type="checkbox" value="£50-£60" /><span>£50 – £60</span></label>
+              <label class="check"><input type="checkbox" value="£60-£70" /><span>£60 – £70</span></label>
+              <label class="check"><input type="checkbox" value="£70-£80" /><span>£70 – £80</span></label>
+              <label class="check"><input type="checkbox" value="£80-£90" /><span>£80 – £90</span></label>
+              <label class="check"><input type="checkbox" value="£90-£100" /><span>£90 – £100</span></label>
+              <label class="check"><input type="checkbox" value="£100+" /><span>£100+</span></label>
+            </div>
+          </details>
+        </aside>
 
-          <div class="filter" data-filter="style">
-            <button class="field_name">Style</button>
-            <div class="dropdown_content">
-              <input type="checkbox" id="item1" value="casual" /><label
-                for="item1"
-              >
-                Casual</label
-              ><br />
-              <input type="checkbox" id="item2" value="sport" /><label
-                for="item2"
-              >
-                Sport</label
-              ><br />
-              <input type="checkbox" id="item3" value="luxury" /><label
-                for="item3"
-              >
-                Luxury</label
-              ><br />
+        <section class="shop-results">
+          <div class="toolbar">
+            <p class="result-count" id="result-count">Loading…</p>
+            <div class="sort" id="sort-section">
+              <label for="sort-select">Sort by</label>
+              <select id="sort-select" class="input">
+                <option value="relevance">Featured</option>
+                <option value="price_low-high">Price: Low to High</option>
+                <option value="price_high-low">Price: High to Low</option>
+                <option value="alpha_a-z">Name: A – Z</option>
+                <option value="alpha_z-a">Name: Z – A</option>
+              </select>
             </div>
           </div>
 
-          <div class="filter" data-filter="material">
-            <button class="field_name">Material</button>
-            <div class="dropdown_content">
-              <input type="checkbox" id="material1" value="fabric" /><label
-                for="material1"
-              >
-                Fabric</label
-              ><br />
-              <input type="checkbox" id="material2" value="leather" /><label
-                for="material2"
-              >
-                Leather</label
-              ><br />
-            </div>
-          </div>
-
-          <div class="filter" data-filter="price">
-            <button class="field_name">Price range</button>
-            <div class="dropdown_content">
-              <input type="checkbox" id="item1" value="£0-£10" /><label
-                for="item1"
-              >
-                £0-£10</label
-              ><br />
-              <input type="checkbox" id="item2" value="£10-£20" /><label
-                for="item2"
-              >
-                £10-£20</label
-              ><br />
-              <input type="checkbox" id="item3" value="£20-£30" /><label
-                for="item3"
-              >
-                £20-£30</label
-              ><br />
-              <input type="checkbox" id="item4" value="£30-£40" /><label
-                for="item4"
-              >
-                £30-£40</label
-              ><br />
-              <input type="checkbox" id="item5" value="£40-£50" /><label
-                for="item5"
-              >
-                £40-£50</label
-              ><br />
-              <input type="checkbox" id="item6" value="£50-£60" /><label
-                for="item6"
-              >
-                £50-£60</label
-              ><br />
-              <input type="checkbox" id="item7" value="£60-£70" /><label
-                for="item7"
-              >
-                £60-£70</label
-              ><br />
-              <input type="checkbox" id="item8" value="£70-£80" /><label
-                for="item8"
-              >
-                £70-£80</label
-              ><br />
-              <input type="checkbox" id="item9" value="£80-£90" /><label
-                for="item9"
-              >
-                £80-£90</label
-              ><br />
-              <input type="checkbox" id="item10" value="£90-£100" /><label
-                for="item10"
-              >
-                £90-£100</label
-              ><br />
-              <input type="checkbox" id="item11" value="£100+" /><label
-                for="item11"
-              >
-                £100+</label
-              ><br />
-            </div>
-          </div>
-        </section>
-
-        <section class="products">
-          <div class="card" data-shoe-id="1">
-            <img src="../assets/mens_sports.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Runner Pro X1</p>
-              <p class="product-price">£89.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-          <div class="card" data-shoe-id="2">
-            <img src="../assets/mens_casual.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Urban Stride</p>
-              <p class="product-price">£74.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-          <div class="card" data-shoe-id="3">
-            <img src="../assets/mens_luxury.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Classic Low</p>
-              <p class="product-price">£64.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-          <div class="card" data-shoe-id="4">
-            <img src="../assets/womens_sports.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Soft Step Air</p>
-              <p class="product-price">£94.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-          <div class="card" data-shoe-id="5">
-            <img src="../assets/womens_casual.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Slim Court</p>
-              <p class="product-price">£79.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-          <div class="card" data-shoe-id="6">
-            <img src="../assets/womens_luxury.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Luxe Walk</p>
-              <p class="product-price">£109.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-          <div class="card" data-shoe-id="7">
-            <img src="../assets/kids_sport.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Dino Dash</p>
-              <p class="product-price">£44.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-          <div class="card" data-shoe-id="8">
-            <img src="../assets/kids_casual.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">Play Runner</p>
-              <p class="product-price">£39.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
-          </div>
-          <div class="card" data-shoe-id="9">
-            <img src="../assets/kids_luxury.png" alt="Shoe" />
-            <div class="card-body">
-              <p class="product-name">School Step</p>
-              <p class="product-price">£34.99</p>
-              <button class="add-to-bag">Add to Bag</button>
-            </div>
+          <div class="product-grid products">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
           </div>
         </section>
       </div>
-    </div>
+    </main>
 
-    <script src="../js/shop.js"></script>
-    <script src="../js/footer.js"></script>
     <script src="../js/cart.js"></script>
+    <script src="../js/shop.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/footer.js"></script>
     <script src="../js/auth.js"></script>
   </body>
 </html>

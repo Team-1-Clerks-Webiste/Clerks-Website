@@ -7,13 +7,12 @@ async function loadShoes() {
   try {
     const response = await fetch("http://127.0.0.1:8000/shoes");
     allShoes = await response.json();
-    if (!allShoes || allShoes.length === 0) {
-      console.log("No shoes found in the database");
-      return;
-    }
+    if (!Array.isArray(allShoes)) allShoes = [];
     applyFilters();
   } catch (error) {
     console.error("Error loading shoes:", error);
+    renderMessage("We couldn't load the collection right now. Please try again shortly.");
+    setResultCount("");
   }
 }
 
@@ -29,10 +28,8 @@ function getCheckedValues(filterName) {
 }
 
 function getActiveSortValue() {
-  const checked = document.querySelector(
-    '#sort-section input[type="radio"]:checked',
-  );
-  return checked ? checked.value : "relevance";
+  const select = document.getElementById("sort-select");
+  return select ? select.value : "relevance";
 }
 
 function getSearchQuery() {
@@ -55,6 +52,7 @@ function matchesPriceRange(price, ranges) {
 
 // ── Main filter / sort / search pipeline ──
 function applyFilters() {
+  const categories = getCheckedValues("category");
   const colours = getCheckedValues("colour");
   const styles = getCheckedValues("style");
   const materials = getCheckedValues("material");
@@ -63,20 +61,24 @@ function applyFilters() {
   const sort = getActiveSortValue();
 
   let filtered = allShoes.filter((shoe) => {
+    // Category — "Men", "Women", "Kids"
+    if (categories.length) {
+      if (!categories.includes((shoe.category || "").toLowerCase())) return false;
+    }
     // Colour — shoe.color may contain "Black, White"
     if (colours.length) {
-      const shoeColours = shoe.color.toLowerCase();
+      const shoeColours = (shoe.color || "").toLowerCase();
       if (!colours.some((c) => shoeColours.includes(c))) return false;
     }
     // Style — shoe.style is e.g. "Sports", "Casual", "Luxury"
     if (styles.length) {
-      const shoeStyle = shoe.style.toLowerCase();
+      const shoeStyle = (shoe.style || "").toLowerCase();
       // handle "sport" matching "sports"
       if (!styles.some((s) => shoeStyle.includes(s))) return false;
     }
     // Material — shoe.material may contain "Mesh, Rubber"
     if (materials.length) {
-      const shoeMat = shoe.material.toLowerCase();
+      const shoeMat = (shoe.material || "").toLowerCase();
       if (!materials.some((m) => shoeMat.includes(m))) return false;
     }
     // Price range
@@ -85,17 +87,9 @@ function applyFilters() {
     }
     // Search
     if (search) {
-      const haystack = (
-        shoe.name +
-        " " +
-        shoe.CATEGORY +
-        " " +
-        shoe.style +
-        " " +
-        shoe.color +
-        " " +
-        shoe.material
-      ).toLowerCase();
+      const haystack = [shoe.name, shoe.category, shoe.style, shoe.color, shoe.material]
+        .join(" ")
+        .toLowerCase();
       if (!haystack.includes(search)) return false;
     }
     return true;
@@ -104,115 +98,80 @@ function applyFilters() {
   // Sort
   switch (sort) {
     case "price_high-low":
-      filtered.sort((a, b) => b.PRICE - a.PRICE);
+      filtered.sort((a, b) => b.price - a.price);
       break;
     case "price_low-high":
-      filtered.sort((a, b) => a.PRICE - b.PRICE);
+      filtered.sort((a, b) => a.price - b.price);
       break;
     case "alpha_a-z":
-      filtered.sort((a, b) => a.NAME.localeCompare(b.NAME));
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
       break;
     case "alpha_z-a":
-      filtered.sort((a, b) => b.NAME.localeCompare(a.NAME));
+      filtered.sort((a, b) => b.name.localeCompare(a.name));
       break;
     default:
       break; // relevance = original API order
   }
 
+  updateTitle(categories);
+  setResultCount(`${filtered.length} ${filtered.length === 1 ? "style" : "styles"}`);
   renderShoes(filtered);
 }
 
+// ── Header / count ──
+function updateTitle(categories) {
+  const title = document.getElementById("shop-title");
+  if (!title) return;
+  title.textContent =
+    categories.length === 1
+      ? `Shop ${categories[0].charAt(0).toUpperCase()}${categories[0].slice(1)}`
+      : "Shop All";
+}
+
+function setResultCount(text) {
+  const el = document.getElementById("result-count");
+  if (el) el.textContent = text;
+}
+
 // ── Render cards ──
-function renderShoes(shoes) {
+function renderMessage(text) {
   const productsSection = document.querySelector(".products");
   productsSection.innerHTML = "";
+  const msg = document.createElement("p");
+  msg.className = "empty-state";
+  msg.textContent = text;
+  productsSection.appendChild(msg);
+}
 
+function renderShoes(shoes) {
   if (shoes.length === 0) {
-    const msg = document.createElement("p");
-    msg.className = "no-results";
-    msg.textContent = "No shoes match your filters.";
-    productsSection.appendChild(msg);
+    renderMessage("No shoes match your filters. Try removing a few.");
     return;
   }
 
+  const productsSection = document.querySelector(".products");
+  productsSection.innerHTML = "";
   shoes.forEach((shoe) => {
     productsSection.appendChild(createProductCard(shoe));
   });
 }
 
-// Create a product card element
-function createProductCard(shoe) {
-  const card = document.createElement("div");
-  card.className = "card";
-  card.setAttribute("data-shoe-id", shoe.id);
-  card.style.cursor = "pointer";
-
-  // Navigate to product page when card is clicked (but not the Add to Bag button)
-  card.addEventListener("click", (e) => {
-    if (e.target.closest(".add-to-bag")) return;
-    window.location.href = `product.html?id=${shoe.id}`;
-  });
-
-  const img = document.createElement("img");
-  img.src = shoe.image ? `/${shoe.image}` : "/assets/mens_sports.png";
-  img.alt = shoe.name;
-
-  const cardBody = document.createElement("div");
-  cardBody.className = "card-body";
-
-  const productName = document.createElement("p");
-  productName.className = "product-name";
-  productName.textContent = shoe.name;
-
-  const productPrice = document.createElement("p");
-  productPrice.className = "product-price";
-  productPrice.textContent = `£${shoe.price}`;
-
-  const addButton = document.createElement("button");
-  addButton.className = "add-to-bag";
-  addButton.textContent = "Add to Bag";
-
-  // Integrate with existing cart functionality
-  addButton.addEventListener("click", () => {
-    const price = `£${shoe.price}`;
-    const image = shoe.image ? `/${shoe.image}` : "/assets/mens_sports.png";
-    const shoeId = shoe.id;
-
-    // Call the cart.js function
-    if (typeof addToBag === "function") {
-      addToBag(shoe.name, price, image, shoeId);
-
-      // Update button feedback
-      addButton.textContent = "Added!";
-      addButton.disabled = true;
-
-      // Reset after 2 seconds
-      setTimeout(() => {
-        addButton.textContent = "Add to Bag";
-        addButton.disabled = false;
-      }, 2000);
-
-      // Update counter
-      if (typeof updateCounter === "function") {
-        updateCounter();
-      }
-    } else {
-      console.error("addToBag function not found");
-    }
-  });
-
-  cardBody.appendChild(productName);
-  cardBody.appendChild(productPrice);
-  cardBody.appendChild(addButton);
-
-  card.appendChild(img);
-  card.appendChild(cardBody);
-
-  return card;
-}
-
 // ── Wire up event listeners ──
 document.addEventListener("DOMContentLoaded", () => {
+  // Pre-select a category passed in the URL (e.g. ?category=Men)
+  const category = new URLSearchParams(window.location.search).get("category");
+  if (category) {
+    const cb = document.querySelector(
+      `.filter[data-filter="category"] input[value="${category.toLowerCase()}"]`,
+    );
+    if (cb) cb.checked = true;
+  }
+
+  // Collapse filter groups by default on small screens
+  if (window.innerWidth <= 900) {
+    document.querySelectorAll(".filter").forEach((f) => f.removeAttribute("open"));
+  }
+
   loadShoes();
 
   // Filter checkboxes — re-filter on every change
@@ -222,57 +181,16 @@ document.addEventListener("DOMContentLoaded", () => {
       cb.addEventListener("change", applyFilters);
     });
 
-  // Sort radio buttons
-  document
-    .querySelectorAll('#sort-section input[type="radio"]')
-    .forEach((rb) => {
-      rb.addEventListener("change", applyFilters);
-    });
+  // Sort dropdown
+  document.getElementById("sort-select")?.addEventListener("change", applyFilters);
 
-  // Click-to-toggle filter dropdowns
-  document.querySelectorAll(".filter .field_name").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const filter = btn.closest(".filter");
-      const wasOpen = filter.classList.contains("open");
-      // Close all filters first
-      document
-        .querySelectorAll(".filter")
-        .forEach((f) => f.classList.remove("open"));
-      document.querySelector(".sort_by")?.classList.remove("open");
-      if (!wasOpen) filter.classList.add("open");
-    });
-  });
-
-  // Click-to-toggle sort dropdown
-  const sortBtn = document.querySelector(".sort_button");
-  if (sortBtn) {
-    sortBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const sortBy = sortBtn.closest(".sort_by");
-      const wasOpen = sortBy.classList.contains("open");
-      document
-        .querySelectorAll(".filter")
-        .forEach((f) => f.classList.remove("open"));
-      sortBy.classList.remove("open");
-      if (!wasOpen) sortBy.classList.add("open");
-    });
-  }
-
-  // Close dropdowns when clicking outside
-  document.addEventListener("click", () => {
+  // Clear all filters
+  document.getElementById("clear-filters")?.addEventListener("click", () => {
     document
-      .querySelectorAll(".filter")
-      .forEach((f) => f.classList.remove("open"));
-    document.querySelector(".sort_by")?.classList.remove("open");
+      .querySelectorAll('.filter input[type="checkbox"]')
+      .forEach((cb) => (cb.checked = false));
+    applyFilters();
   });
-
-  // Prevent clicks inside dropdowns from closing them
-  document
-    .querySelectorAll(".dropdown_content, .sort_content")
-    .forEach((dd) => {
-      dd.addEventListener("click", (e) => e.stopPropagation());
-    });
 
   // Navbar search bar — filter as you type
   const searchInput = document.querySelector(

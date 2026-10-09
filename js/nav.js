@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const nav = document.querySelector("nav");
+  const nav = document.querySelector(".clerks-navbar");
   if (!nav) return;
 
   // --- Burger button ---
@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   burger.id = "burger-btn";
   burger.setAttribute("aria-label", "Open menu");
   burger.innerHTML = "<span></span><span></span><span></span>";
-  nav.appendChild(burger);
+  (nav.querySelector(".clerks-icons") || nav).appendChild(burger);
 
   // --- Mobile overlay ---
   const overlay = document.createElement("div");
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const mobileUl = document.createElement("ul");
 
   // Clone links from the existing nav list
-  const existingItems = nav.querySelectorAll(".links ul li");
+  const existingItems = nav.querySelectorAll(".clerks-links ul li");
   existingItems.forEach((li) => {
     mobileUl.appendChild(li.cloneNode(true));
   });
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Close and reset when viewport widens past mobile breakpoint
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 768) {
+    if (window.innerWidth > 900) {
       closeMenu();
     }
   });

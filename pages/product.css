@@ -1,205 +1,184 @@
-@import url("https://fonts.cdnfonts.com/css/nike");
-
-@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&display=swap");
-
-* {
-  margin: 0;
-  font-family: sans-serif;
-  font-weight: 800;
+.product-page {
+  padding-top: var(--s-6);
+  padding-bottom: var(--s-16);
 }
 
-body {
-  width: 100%;
-  overflow-x: hidden;
-  background-color: #111;
-}
-
-.links {
-  display: flex;
-  width: 120px;
-}
-
-ul {
-  display: flex;
-  gap: 1rem;
-  list-style: none;
-  align-items: center;
-  padding-left: 40%;
-}
-
-li {
-  cursor: pointer;
-}
-
-li a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.icons input {
-  padding: 5px;
-  margin: 35px;
-  border-radius: 15px;
-  border: none;
-  background-color: #d9d9d9;
-}
-
-.icons {
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 0;
-  padding-right: 20px;
-}
-
-.icon {
-  width: 20px;
-  height: 20px;
-  padding-top: 35px;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.page_content {
+/* ── Breadcrumb ────────────────────────────────────── */
+.breadcrumb {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
-  padding: 2rem;
-  align-items: flex-start;
+  gap: var(--s-2);
+  margin-bottom: var(--s-6);
+  font-size: 0.8rem;
+  color: var(--text-faint);
 }
 
-.left_content img {
+.breadcrumb a:hover {
+  color: var(--gold);
+}
+
+.breadcrumb__current {
+  color: var(--text-muted);
+}
+
+/* ── Layout ────────────────────────────────────────── */
+.product {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: var(--s-12);
+  align-items: start;
+}
+
+.gallery {
+  position: sticky;
+  top: calc(var(--nav-h) + var(--s-6));
+}
+
+.gallery__main {
+  aspect-ratio: 1 / 1;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: radial-gradient(circle at 50% 40%, #262626, var(--surface));
+  overflow: hidden;
+}
+
+.gallery__main img {
   width: 100%;
-  max-width: 1000px;
-  object-fit: fill;
-  display: block;
-  background-color: #111;
-  padding: 15px;
+  height: 100%;
+  object-fit: cover;
 }
 
-.right-content {
-  flex: 1;
-  background-color: #1a1a1a;
+/* ── Details column ────────────────────────────────── */
+.details {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  align-self: flex-start;
-  gap: 1rem;
-  padding: 1rem;
-  border-radius: 15px;
+  gap: var(--s-4);
 }
 
-.product-name {
-  font-size: 50px;
-  font-family: "Barlow Condensed", sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #c9a84c;
+.product-title {
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+}
+
+.product-price-lg {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--gold);
 }
 
 .product-colour {
-  font-family: "Barlow Condensed", sans-serif;
-  font-size: 14px;
-  color: rgb(220, 220, 220);
+  color: var(--text-muted);
+  font-size: 0.9rem;
 }
 
-.product-price {
-  font-family: "Barlow Condensed", sans-serif;
-  font-size: 20px;
-  color: rgb(220, 220, 220);
+/* ── Size picker ───────────────────────────────────── */
+.size-picker {
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--border);
 }
 
-.product-reviews {
-  font-family: "Barlow Condensed", sans-serif;
-  font-size: 14px;
-  color: rgb(220, 220, 220);
-}
-
-.product-available-colours {
-  font-family: "Barlow Condensed", sans-serif;
-  font-size: 20px;
-  color: #c9a84c;
-}
-
-.colour-images {
+.size-picker__head {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
+  margin-bottom: var(--s-3);
+  font-size: 0.8rem;
 }
 
-.colour-image {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-  border-radius: 4px;
-  border: 1px solid transparent;
+.size-picker__label {
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.colour-image:hover {
-  border: 1px solid #c9a84c;
-  cursor: pointer;
+.size-picker__selected {
+  color: var(--gold);
 }
 
-.product-size {
-  font-family: "Barlow Condensed", sans-serif;
-  font-size: 20px;
-  color: #c9a84c;
+.size-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: var(--s-2);
 }
 
-.field_name {
-  font-family: "Barlow Condensed", sans-serif;
-  color: rgb(0, 0, 0);
-  background-color: rgb(220, 220, 220);
-  border: #e0e0e0;
-  font-size: 18px;
-  cursor: pointer;
-  border-radius: 15px;
-  width: 100px;
-}
-
-.dropdown_content {
-  font-family: "Barlow Condensed", sans-serif;
-  display: none;
-  max-width: 198px;
-  min-width: 0px;
-  z-index: 1;
-  overflow-y: auto;
-  font-size: small;
-  padding-top: 10px;
-}
-
-.sizes:hover .dropdown_content {
-  display: block;
-  background-color: #1a1a1a;
-  color: rgb(220, 220, 220);
-}
-
-.product-description {
-  font-family: "Barlow Condensed", sans-serif;
-  font-size: 12px;
-  color: rgb(220, 220, 220);
-}
-
-.product-description-title {
-  font-family: "Barlow Condensed", sans-serif;
-  font-size: 20px;
-  color: #c9a84c;
-}
-
-.add-to-bag {
-  font-family: "Barlow Condensed", sans-serif;
-  width: 100%;
-  padding: 10px;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
-  border-radius: 6px;
-  font-size: 13px;
-  cursor: pointer;
+.size-btn {
+  padding: 0.7rem 0;
+  background-color: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
   transition:
-    background 0.2s,
-    border-color 0.2s;
+    border-color var(--ease),
+    background-color var(--ease),
+    color var(--ease);
 }
 
-.add-to-bag:hover {
-  background: #c9922a;
-  border-color: #c9922a;
+.size-btn:hover {
+  border-color: var(--text);
+}
+
+.size-btn.is-selected {
+  background-color: var(--text);
+  border-color: var(--text);
+  color: #111;
+}
+
+.form-msg {
+  min-height: 1.2em;
+  margin-top: var(--s-2);
+  font-size: 0.8rem;
+  color: var(--danger);
+}
+
+/* ── Perks / spec ──────────────────────────────────── */
+.perks-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.perks-list li::before {
+  content: "✓";
+  margin-right: var(--s-2);
+  color: var(--gold);
+}
+
+.spec {
+  margin-top: var(--s-4);
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--border);
+}
+
+.spec__title {
+  font-size: 1.25rem;
+  margin-bottom: var(--s-4);
+}
+
+.spec__list {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--s-2) var(--s-6);
+  font-size: 0.9rem;
+}
+
+.spec__list dt {
+  color: var(--text-faint);
+}
+
+.spec__list dd {
+  color: var(--text);
+}
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width: 900px) {
+  .product {
+    grid-template-columns: 1fr;
+    gap: var(--s-8);
+  }
+
+  .gallery {
+    position: static;
+  }
 }

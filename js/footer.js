@@ -11,7 +11,7 @@ const footerModule = (() => {
   // --- CONFIG: Edit your pages here ---
   const config = {
     brandName: 'Clerks',
-    tagline: 'Comfort, Reimagined',
+    tagline: 'Comfort, reimagined. Premium footwear crafted for every step, every occasion.',
     columns: [
       {
         heading: 'Navigate',
@@ -40,181 +40,109 @@ const footerModule = (() => {
 
   // --- CSS ---
   const styles = `
-    :root {
-      --footer-bg:         #0a0a0a;
-      --footer-gold:       #c9a84c;
-      --footer-gold-light: #e8c97a;
-      --footer-gold-mute:  rgba(201, 168, 76, 0.12);
-      --footer-text:       #909090;
-      --footer-border:     rgba(201, 168, 76, 0.18);
-      --footer-transition: 0.22s ease;
-    }
-
     .footer {
-      background-color: var(--footer-bg);
-      color: var(--footer-text);
-      font-family: 'DM Sans', 'Helvetica Neue', sans-serif;
+      margin-top: auto;
+      background-color: #000;
+      color: var(--text-muted);
+      font-family: var(--font-body);
       font-size: 0.875rem;
       line-height: 1.6;
-      border-top: 1px solid var(--footer-border);
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      border-top: 1px solid var(--border);
+      padding: 0 var(--s-6);
     }
 
     .footer__inner {
-      max-width: 1100px;
+      max-width: calc(var(--maxw) - 2 * var(--s-6));
       margin: 0 auto;
-      padding: 3.5rem 0 2.5rem;
+      padding: var(--s-16) 0 var(--s-12);
       display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 3rem;
+      grid-template-columns: 1.2fr 2fr;
+      gap: var(--s-12);
       align-items: start;
     }
 
     .footer__brand {
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: var(--s-3);
+      max-width: 320px;
     }
 
     .footer__logo {
-      font-family: 'Cormorant Garamond', 'Georgia', serif;
-      font-size: clamp(1.6rem, 2.5vw, 2.1rem);
-      font-weight: 600;
-      letter-spacing: 0.14em;
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      background: linear-gradient(135deg, var(--footer-gold), var(--footer-gold-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--gold);
+      line-height: 1;
     }
 
     .footer__tagline {
-      font-size: 0.78rem;
-      color: var(--footer-text);
-      letter-spacing: 0.04em;
-      font-style: italic;
-      margin: 0;
+      color: var(--text-muted);
     }
 
     .footer__nav {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: var(--s-8);
     }
 
     .footer__heading {
-      font-family: 'Cormorant Garamond', 'Georgia', serif;
-      font-size: 0.68rem;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--footer-gold);
-      margin: 0 0 0.9rem;
-      padding-bottom: 0.45rem;
-      border-bottom: 1px solid var(--footer-border);
+      color: var(--text);
+      margin-bottom: var(--s-4);
     }
 
     .footer__list {
       list-style: none;
-      margin: 0;
-      padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: var(--s-2);
     }
 
     .footer__link {
-      color: var(--footer-text);
-      text-decoration: none;
-      display: inline-block;
-      position: relative;
-      transition: color var(--footer-transition), padding-left var(--footer-transition);
-    }
-
-    .footer__link::before {
-      content: '';
-      position: absolute;
-      left: -10px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 0;
-      height: 1px;
-      background: var(--footer-gold);
-      transition: width var(--footer-transition);
+      color: var(--text-muted);
+      transition: color var(--ease);
     }
 
     .footer__link:hover {
-      color: var(--footer-gold-light);
-      padding-left: 10px;
-    }
-
-    .footer__link:hover::before {
-      width: 6px;
-    }
-
-    .footer__divider {
-      max-width: 1100px;
-      margin: 0 auto;
-      height: 1px;
-      background: linear-gradient(
-        to right,
-        transparent,
-        var(--footer-gold-mute) 20%,
-        var(--footer-border) 50%,
-        var(--footer-gold-mute) 80%,
-        transparent
-      );
+      color: var(--gold);
     }
 
     .footer__bottom {
-      max-width: 1100px;
+      max-width: calc(var(--maxw) - 2 * var(--s-6));
       margin: 0 auto;
-      padding: 1.25rem 0;
+      padding: var(--s-6) 0;
+      border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
+      gap: var(--s-4);
+      flex-wrap: wrap;
     }
 
     .footer__copy {
-      margin: 0;
-      font-size: 0.75rem;
-      color: var(--footer-text);
-      letter-spacing: 0.04em;
+      font-size: 0.8rem;
+      color: var(--text-faint);
     }
 
     @media (max-width: 700px) {
-      .footer__inner {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        padding: 2.5rem 0 2rem;
+      .footer {
+        padding: 0 var(--s-4);
       }
 
-    .footer__nav {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 1.5rem;
-    }
-
-    .footer * {
-    background: transparent;
-    }
-
-    .footer__logo {
-    background: linear-gradient(135deg, var(--footer-gold), var(--footer-gold-light)) !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-        }
+      .footer__inner {
+        grid-template-columns: 1fr;
+        gap: var(--s-8);
+        padding: var(--s-12) 0 var(--s-8);
+      }
     }
   `;
-
-  // --- Inject Google Fonts ---
-  function injectFonts() {
-    if (document.querySelector('#footer-fonts')) return;
-    const link = document.createElement('link');
-    link.id = 'footer-fonts';
-    link.rel = 'stylesheet';
-    link.href = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=DM+Sans&display=swap';
-    document.head.appendChild(link);
-  }
 
   // --- Inject CSS ---
   function injectStyles() {
@@ -250,9 +178,9 @@ const footerModule = (() => {
           ${columns}
         </nav>
       </div>
-      <div class="footer__divider"></div>
       <div class="footer__bottom">
         <p class="footer__copy">&copy; ${new Date().getFullYear()} ${config.brandName}. All rights reserved.</p>
+        <p class="footer__copy">Handcrafted in Street, Somerset since 1825</p>
       </div>
     `;
 
@@ -261,7 +189,6 @@ const footerModule = (() => {
 
   // --- Init ---
   function init() {
-    injectFonts();
     injectStyles();
     buildFooter();
   }
