@@ -307,15 +307,16 @@ select.input {
 }
 
 .card-media {
-  aspect-ratio: 4 / 3;
-  background: radial-gradient(circle at 50% 40%, #262626, var(--surface-2));
+  aspect-ratio: 2 / 1;
+  background: #f6f6f6; /* matches the product photo backgrounds */
   overflow: hidden;
 }
 
 .card-media img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: var(--s-2) var(--s-4);
   transition: transform 0.4s ease;
 }
 
