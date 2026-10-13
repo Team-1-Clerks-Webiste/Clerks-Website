@@ -20,3 +20,7 @@ ICA_API_STYLE = os.getenv("ICA_API_STYLE", "chat").strip().lower()
 ICA_AUTH_HEADER = os.getenv("ICA_AUTH_HEADER", "Authorization").strip()
 
 ICA_TIMEOUT = float(os.getenv("ICA_TIMEOUT", "30"))
+
+# Photo search needs a vision-capable model. Falls back to the main ICA settings when unset
+ICA_VISION_API_URL = os.getenv("ICA_VISION_API_URL", "").strip() or ICA_API_URL
+ICA_VISION_MODEL = os.getenv("ICA_VISION_MODEL", "").strip() or ICA_MODEL

@@ -87,3 +87,27 @@ def mock_chat(messages: List[dict], shoes: List[dict], current_shoe: Optional[di
     who = f" for {category.lower()}" if category else ""
     budget = f" under £{under}" if under else ""
     return _reply(f"Here are some {desc}{who}{budget} I think you'll like:", [s["id"] for s in picks])
+
+
+def mock_image_match(shoes: List[dict], limit: int, colour_hint: str = "", note: str = "") -> str:
+    """No vision locally: match on the colour the browser sampled from the photo, plus any note."""
+    words = _words(note)
+    colour = colour_hint.lower() if colour_hint.lower() in COLOURS else None
+    category = next((c for c, ws in CATEGORY_WORDS.items() if words & set(ws)), None)
+    style = next((s for s, ws in STYLE_WORDS.items() if words & set(ws)), None)
+    material = next((m for m in MATERIALS if m in words), None)
+
+    def score(shoe):
+        s = 0
+        s += 3 if colour and colour in shoe["color"].lower() else 0
+        s += 2 if style and shoe["style"] == style else 0
+        s += 2 if category and shoe["category"] == category else 0
+        s += 1 if material and material in shoe["material"].lower() else 0
+        return s
+
+    picks = sorted(shoes, key=lambda s: (-score(s), s["price"]))[:limit]
+    if not picks:
+        return _reply("I couldn't find anything similar right now. Try browsing the full range in the shop.")
+
+    seen = f"{colour} shoes" if colour else "those shoes"
+    return _reply(f"Those look like {seen}. Here are the closest pairs we have:", [s["id"] for s in picks])

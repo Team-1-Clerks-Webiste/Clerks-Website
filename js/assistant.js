@@ -14,6 +14,21 @@
     "What's your returns policy?",
     "Help me pick a size",
   ];
+  const IMAGE_MAX_PX = 1024;
+  const THUMB_MAX_PX = 240;
+  // Named colours the backend's local matcher understands, used as a hint for it
+  const COLOUR_SWATCHES = {
+    black: [25, 25, 25],
+    white: [240, 240, 240],
+    grey: [128, 128, 128],
+    brown: [120, 75, 40],
+    tan: [200, 160, 110],
+    blue: [50, 90, 190],
+    navy: [25, 35, 80],
+    red: [190, 35, 35],
+    pink: [235, 140, 175],
+    green: [50, 140, 70],
+  };
   const GREETING =
     "Hi! I'm the Clerks assistant. Tell me what you're looking for and I'll find the right pair, or ask me about sizing, delivery and returns.";
 
@@ -202,6 +217,29 @@
     }
     .assistant__form .input { padding-top: 0.65rem; padding-bottom: 0.65rem; }
     .assistant__send { padding: 0 16px; }
+    .assistant__photo {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      background: transparent;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--r-sm);
+      color: var(--text-muted);
+      transition: border-color var(--ease), color var(--ease);
+    }
+    .assistant__photo:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+    .assistant__photo svg { width: 18px; height: 18px; }
+
+    .msg__image {
+      display: block;
+      max-width: 100%;
+      max-height: 180px;
+      margin-bottom: 6px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
 
     .assistant__note {
       padding: 0 16px 10px;
@@ -238,7 +276,11 @@
   }
 
   function saveHistory() {
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-30)));
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-30)));
+    } catch (err) {
+      console.warn("Could not save chat history:", err);
+    }
   }
 
   function currentShoeId() {
@@ -279,7 +321,14 @@
     <div class="assistant__log" aria-live="polite"></div>
     <div class="assistant__starters"></div>
     <form class="assistant__form">
-      <input class="input" type="text" maxlength="1000" placeholder="Ask about shoes, sizes, delivery…" aria-label="Message" />
+      <button type="button" class="assistant__photo" data-action="photo" aria-label="Find shoes from a photo" title="Find shoes from a photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+      </button>
+      <input type="file" accept="image/*" hidden data-role="photo-input" />
+      <input class="input" type="text" maxlength="1000" placeholder="Ask about shoes, or send a photo…" aria-label="Message" />
       <button class="btn btn--primary assistant__send" type="submit">Send</button>
     </form>
     <p class="assistant__note">AI can make mistakes. Check sizes and prices before ordering.</p>`;
@@ -287,8 +336,10 @@
   const log = panel.querySelector(".assistant__log");
   const starters = panel.querySelector(".assistant__starters");
   const form = panel.querySelector(".assistant__form");
-  const input = form.querySelector("input");
-  const sendBtn = form.querySelector("button");
+  const input = form.querySelector('input[type="text"]');
+  const sendBtn = form.querySelector('button[type="submit"]');
+  const photoBtn = form.querySelector('[data-action="photo"]');
+  const photoInput = form.querySelector('[data-role="photo-input"]');
 
   STARTERS.forEach((text) => {
     const chip = el("button", "starter", text);
@@ -322,7 +373,15 @@
   }
 
   function renderMessage(msg) {
-    log.appendChild(el("div", `msg msg--${msg.role}`, msg.content));
+    const bubble = el("div", `msg msg--${msg.role}`);
+    if (msg.image) {
+      const img = el("img", "msg__image");
+      img.src = msg.image;
+      img.alt = "Your photo";
+      bubble.appendChild(img);
+    }
+    bubble.appendChild(document.createTextNode(msg.content));
+    log.appendChild(bubble);
     if (msg.products && msg.products.length) {
       const list = el("div", "msg-products");
       msg.products.forEach((shoe) => list.appendChild(productRow(shoe)));
@@ -342,14 +401,13 @@
     busy = value;
     input.disabled = value;
     sendBtn.disabled = value;
+    photoBtn.disabled = value;
   }
 
   // ── Send ──
-  async function send(text) {
-    text = text.trim();
-    if (!text || busy) return;
-
-    history.push({ role: "user", content: text });
+  // Shows the user's message, POSTs `body` to `path`, then shows the reply
+  async function ask(userMsg, path, buildBody, failText) {
+    history.push(userMsg);
     saveHistory();
     render();
     input.value = "";
@@ -362,24 +420,17 @@
 
     let reply;
     try {
-      const res = await fetch(`${AI_API}/chat`, {
+      const res = await fetch(`${AI_API}${path}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: history.slice(-MAX_SENT).map(({ role, content }) => ({ role, content })),
-          shoe_id: currentShoeId(),
-        }),
+        body: JSON.stringify(await buildBody()),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       reply = { role: "assistant", content: data.reply, products: data.products || [] };
     } catch (err) {
       console.error("Assistant error:", err);
-      reply = {
-        role: "assistant",
-        content: "Sorry, I can't connect right now. Please try again in a moment.",
-        products: [],
-      };
+      reply = { role: "assistant", content: failText, products: [] };
     }
 
     history.push(reply);
@@ -387,6 +438,109 @@
     setBusy(false);
     render();
     input.focus();
+  }
+
+  function send(text) {
+    text = text.trim();
+    if (!text || busy) return;
+
+    ask({ role: "user", content: text }, "/chat", () => ({
+      messages: history.slice(-MAX_SENT).map(({ role, content }) => ({ role, content })),
+      shoe_id: currentShoeId(),
+    }), "Sorry, I can't connect right now. Please try again in a moment.");
+  }
+
+  // ── Photo search ──
+  function loadImage(file) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        resolve(img);
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error("Could not read that image"));
+      };
+      img.src = url;
+    });
+  }
+
+  // Draws the image scaled to fit within maxPx, so uploads stay small
+  function drawScaled(img, maxPx) {
+    const scale = Math.min(1, maxPx / Math.max(img.naturalWidth, img.naturalHeight));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
+    canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#fff"; // transparent PNGs become white, not black, as JPEG
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    return canvas;
+  }
+
+  // Most common named colour in the centre of the photo, skipping plain backgrounds
+  function dominantColour(canvas) {
+    const ctx = canvas.getContext("2d");
+    const x = Math.floor(canvas.width * 0.2);
+    const y = Math.floor(canvas.height * 0.2);
+    const w = Math.max(1, Math.floor(canvas.width * 0.6));
+    const h = Math.max(1, Math.floor(canvas.height * 0.6));
+    const { data } = ctx.getImageData(x, y, w, h);
+
+    const counts = {};
+    const step = 4 * Math.max(1, Math.floor((w * h) / 4000)); // ~4000 samples
+    for (let i = 0; i < data.length; i += step) {
+      const [r, g, b] = [data[i], data[i + 1], data[i + 2]];
+      if (Math.min(r, g, b) > 225) continue; // likely a white backdrop
+      let best = null;
+      let bestDist = Infinity;
+      for (const [name, [sr, sg, sb]] of Object.entries(COLOUR_SWATCHES)) {
+        const dist = (r - sr) ** 2 + (g - sg) ** 2 + (b - sb) ** 2;
+        if (dist < bestDist) [best, bestDist] = [name, dist];
+      }
+      counts[best] = (counts[best] || 0) + 1;
+    }
+
+    const ranked = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    return ranked.length ? ranked[0][0] : "white";
+  }
+
+  async function sendPhoto(file) {
+    if (!file || busy) return;
+    if (!file.type.startsWith("image/")) {
+      history.push({ role: "assistant", content: "That doesn't look like an image. Please choose a photo of some shoes.", products: [] });
+      saveHistory();
+      render();
+      return;
+    }
+
+    let img;
+    try {
+      img = await loadImage(file);
+    } catch (err) {
+      console.error("Assistant image error:", err);
+      history.push({ role: "assistant", content: "Sorry, I couldn't open that photo. Try a JPEG or PNG.", products: [] });
+      saveHistory();
+      render();
+      return;
+    }
+
+    const note = input.value.trim();
+    const full = drawScaled(img, IMAGE_MAX_PX);
+    const thumb = drawScaled(img, THUMB_MAX_PX).toDataURL("image/jpeg", 0.7);
+
+    ask(
+      { role: "user", content: note || "Find shoes like these", image: thumb },
+      "/image-match",
+      () => ({
+        image: full.toDataURL("image/jpeg", 0.85),
+        note,
+        colour_hint: dominantColour(full),
+      }),
+      "Sorry, I couldn't analyse that photo right now. Please try again in a moment."
+    );
   }
 
   // ── Open / close ──
@@ -409,6 +563,11 @@
     saveHistory();
     render();
     input.focus();
+  });
+  photoBtn.addEventListener("click", () => photoInput.click());
+  photoInput.addEventListener("change", () => {
+    sendPhoto(photoInput.files[0]);
+    photoInput.value = ""; // allow picking the same file again
   });
   form.addEventListener("submit", (e) => {
     e.preventDefault();

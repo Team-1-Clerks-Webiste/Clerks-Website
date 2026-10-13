@@ -36,7 +36,7 @@
     }
 
     .clerks-navbar .clerks-logo img {
-      height: 52px;
+      height: 100px;
       width: auto;
       filter: invert(1) brightness(1.1);
     }

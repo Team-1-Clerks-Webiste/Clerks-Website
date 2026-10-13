@@ -1,4 +1,5 @@
 import logging
+import re
 import time
 from typing import List, Literal, Optional
 
@@ -7,15 +8,18 @@ from pydantic import BaseModel, Field
 
 from backend.ai import client
 from backend.ai.knowledge import get_catalogue, shoes_by_id
-from backend.ai.mock import mock_chat
+from backend.ai.mock import mock_chat, mock_image_match
 from backend.ai.parsing import parse_model_json, valid_ids
-from backend.ai.prompts import chat_system_prompt, recommendation_prompt
+from backend.ai.prompts import chat_system_prompt, image_match_prompt, recommendation_prompt
 
 router = APIRouter(prefix="/ai")
 log = logging.getLogger("clerks.ai")
 
 MAX_HISTORY = 10
 RECS_TTL_SECONDS = 600
+# ~4 MB of image once base64-decoded; the browser downsizes photos well below this
+MAX_IMAGE_CHARS = 5_500_000
+IMAGE_DATA_URL = re.compile(r"^data:image/(jpeg|png|webp|gif);base64,[A-Za-z0-9+/=]+$")
 FALLBACK_REPLY = (
     "Sorry, I'm having trouble right now. You can still browse the full range in the shop, "
     "and delivery is free over £50 with 30-day returns."
@@ -107,3 +111,43 @@ def recommendations(shoe_id: int, limit: int = Query(4, ge=1, le=8)):
     }
     _recs_cache[cache_key] = {"at": time.time(), "data": data}
     return data
+
+
+class ImageMatchRequest(BaseModel):
+    image: str = Field(min_length=1, max_length=MAX_IMAGE_CHARS)
+    note: str = Field("", max_length=300)
+    # Main colour sampled in the browser, used by the mock when there is no vision model
+    colour_hint: str = Field("", max_length=20)
+    limit: int = Field(4, ge=1, le=8)
+
+
+@router.post("/image-match")
+def image_match(request: ImageMatchRequest):
+    if not IMAGE_DATA_URL.match(request.image):
+        raise HTTPException(status_code=422, detail="Image must be a base64 JPEG, PNG, WebP or GIF data URL")
+
+    shoes = get_catalogue()
+    by_id = shoes_by_id(shoes)
+    note = request.note.strip()
+
+    raw, source = None, "rules"
+    if client.is_live():
+        try:
+            raw = client.generate_with_image(
+                image_match_prompt(shoes, request.limit, note),
+                note or "Find me shoes like the ones in this photo.",
+                request.image,
+            )
+            source = "ai"
+        except client.AIUnavailable as e:
+            log.warning("AI image match failed: %s", e)
+
+    if raw is None:
+        raw = mock_image_match(shoes, request.limit, request.colour_hint, note)
+
+    parsed = parse_model_json(raw, by_id.keys(), request.limit)
+    return {
+        "reply": parsed["reply"] or FALLBACK_REPLY,
+        "products": [by_id[i] for i in parsed["product_ids"]],
+        "source": source,
+    }
