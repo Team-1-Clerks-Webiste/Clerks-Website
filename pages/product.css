@@ -35,17 +35,18 @@
 }
 
 .gallery__main {
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 2 / 1;
   border-radius: var(--r-md);
   border: 1px solid var(--border);
-  background: radial-gradient(circle at 50% 40%, #262626, var(--surface));
+  background: #f6f6f6; /* matches the product photo backgrounds */
   overflow: hidden;
 }
 
 .gallery__main img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: var(--s-4) var(--s-8);
 }
 
 /* ── Details column ────────────────────────────────── */
