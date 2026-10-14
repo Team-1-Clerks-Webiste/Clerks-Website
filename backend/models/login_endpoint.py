@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from backend.database import supabase
 from backend.security import (
     create_token,
+    password_problems,
     login_lockout_seconds,
     record_failed_login,
     clear_failed_logins,
@@ -30,6 +31,11 @@ class LoginRequest(BaseModel):
 
 @router.post("/register")
 def register(req: RegisterRequest):
+    # Reject weak passwords
+    problems = password_problems(req.password)
+    if problems:
+        return {"error": "Password must include " + ", ".join(problems) + "."}
+
     # Check whether the email is already registered
     existing = (
         supabase
