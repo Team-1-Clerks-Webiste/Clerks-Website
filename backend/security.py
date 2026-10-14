@@ -59,6 +59,23 @@ def require_same_user(user_id: int, user: dict) -> None:
         raise HTTPException(status_code=403, detail="You can only access your own account")
 
 
+MIN_PASSWORD_LENGTH = 8
+
+
+def password_problems(password: str) -> list:
+    """Return the rules a password breaks (empty list means it's strong enough)."""
+    problems = []
+    if len(password) < MIN_PASSWORD_LENGTH:
+        problems.append(f"at least {MIN_PASSWORD_LENGTH} characters")
+    if not any(c.isupper() for c in password):
+        problems.append("an uppercase letter")
+    if not any(c.islower() for c in password):
+        problems.append("a lowercase letter")
+    if not any(c.isdigit() for c in password):
+        problems.append("a number")
+    return problems
+
+
 # Login rate limit: after MAX_LOGIN_ATTEMPTS failures within LOGIN_WINDOW_SECONDS,
 # that IP + email is locked out until the window ends. Stops password guessing.
 MAX_LOGIN_ATTEMPTS = 5
