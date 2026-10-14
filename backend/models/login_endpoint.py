@@ -1,7 +1,13 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from backend.database import supabase
-from backend.security import create_token
+from backend.security import (
+    create_token,
+    login_lockout_seconds,
+    record_failed_login,
+    clear_failed_logins,
+)
 import hashlib
 
 router = APIRouter()
@@ -58,7 +64,16 @@ def register(req: RegisterRequest):
 
 
 @router.post("/login")
-def login(req: LoginRequest):
+def login(req: LoginRequest, request: Request):
+    # Block repeated guessing from the same IP for the same account
+    limit_key = f"{request.client.host}:{req.email.lower()}"
+    wait = login_lockout_seconds(limit_key)
+    if wait:
+        return JSONResponse(
+            status_code=429,
+            content={"error": f"Too many failed attempts. Try again in {wait} seconds."}
+        )
+
     # Find the user by email
     response = (
         supabase
@@ -69,14 +84,17 @@ def login(req: LoginRequest):
     )
 
     if not response.data:
+        record_failed_login(limit_key)
         return {"error": "Invalid email or password"}
 
     user = response.data[0]
 
     # Check the password
     if user["password"] != hash_password(req.password):
+        record_failed_login(limit_key)
         return {"error": "Invalid email or password"}
 
+    clear_failed_logins(limit_key)
     return {
         "message": "Login successful",
         "user_id": user["id"],

@@ -1,4 +1,5 @@
 import os
+import time
 from datetime import datetime, timedelta, timezone
 
 import jwt
@@ -56,3 +57,39 @@ def require_same_user(user_id: int, user: dict) -> None:
     """Stop users reading or changing another user's data."""
     if user_id != user["id"]:
         raise HTTPException(status_code=403, detail="You can only access your own account")
+
+
+# Login rate limit: after MAX_LOGIN_ATTEMPTS failures within LOGIN_WINDOW_SECONDS,
+# that IP + email is locked out until the window ends. Stops password guessing.
+MAX_LOGIN_ATTEMPTS = 5
+LOGIN_WINDOW_SECONDS = 60
+
+_failed_logins = {}
+
+
+def login_lockout_seconds(key: str) -> int:
+    """Seconds left on the lockout for this key, or 0 if they can try again."""
+    entry = _failed_logins.get(key)
+    if not entry:
+        return 0
+
+    elapsed = time.time() - entry["first"]
+    if elapsed > LOGIN_WINDOW_SECONDS:
+        del _failed_logins[key]
+        return 0
+
+    if entry["count"] >= MAX_LOGIN_ATTEMPTS:
+        return int(LOGIN_WINDOW_SECONDS - elapsed) + 1
+    return 0
+
+
+def record_failed_login(key: str) -> None:
+    entry = _failed_logins.get(key)
+    if entry is None or time.time() - entry["first"] > LOGIN_WINDOW_SECONDS:
+        _failed_logins[key] = {"count": 1, "first": time.time()}
+    else:
+        entry["count"] += 1
+
+
+def clear_failed_logins(key: str) -> None:
+    _failed_logins.pop(key, None)
