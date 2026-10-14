@@ -20,6 +20,7 @@ function performLogout() {
   }
   localStorage.removeItem("user_id");
   localStorage.removeItem("username");
+  localStorage.removeItem("token");
   const isInPages = window.location.pathname.includes("/pages/");
   window.location.href = isInPages ? "login.html" : "./pages/login.html";
 }
@@ -144,6 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       localStorage.setItem("user_id", data.user_id);
       localStorage.setItem("username", data.username);
+      localStorage.setItem("token", data.token);
       window.location.href = "../index.html";
     });
   }

@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 from backend.database import supabase
+from backend.security import create_token
 import hashlib
 
 router = APIRouter()
@@ -79,5 +80,6 @@ def login(req: LoginRequest):
     return {
         "message": "Login successful",
         "user_id": user["id"],
-        "username": user["username"]
+        "username": user["username"],
+        "token": create_token(user)
     }
