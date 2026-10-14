@@ -1,5 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 import sqlite3
+from backend.security import get_current_user, require_same_user
 
 router = APIRouter()
 
@@ -11,7 +12,8 @@ def get_db():
 
 
 @router.post("/orders/{user_id}")
-def place_order(user_id: int):
+def place_order(user_id: int, user: dict = Depends(get_current_user)):
+    require_same_user(user_id, user)
     conn = get_db()
     cart_items = conn.execute(
         """SELECT cart.shoe_id, cart.quantity, shoes.PRICE as price
@@ -45,7 +47,8 @@ def place_order(user_id: int):
 
 
 @router.get("/orders/{user_id}")
-def get_orders(user_id: int):
+def get_orders(user_id: int, user: dict = Depends(get_current_user)):
+    require_same_user(user_id, user)
     conn = get_db()
     orders = conn.execute(
         "SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC",

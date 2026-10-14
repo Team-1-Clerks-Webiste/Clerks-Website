@@ -23,12 +23,15 @@ function addToBag(name, price, image, shoeId) {
   saveCart(cart);
   updateCounter();
 
-  const userId = localStorage.getItem("user_id");
-  if (userId && shoeId) {
+  const token = localStorage.getItem("token");
+  if (token && shoeId) {
     fetch(`${CART_API}/cart`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user_id: parseInt(userId), shoe_id: parseInt(shoeId), quantity: 1 }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({ shoe_id: parseInt(shoeId), quantity: 1 }),
     });
   }
 }

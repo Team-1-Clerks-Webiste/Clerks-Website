@@ -1,6 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from backend.database import supabase
+from backend.security import require_admin
 
 router = APIRouter()
 
@@ -43,7 +44,7 @@ def get_shoe(shoe_id: int):
     return response.data[0]
 
 
-@router.post("/shoes")
+@router.post("/shoes", dependencies=[Depends(require_admin)])
 def create_shoe(shoe: ShoeCreate):
     response = (
         supabase
@@ -66,7 +67,7 @@ def create_shoe(shoe: ShoeCreate):
     return {"message": "Shoe created successfully"}
 
 
-@router.delete("/shoes/{shoe_id}")
+@router.delete("/shoes/{shoe_id}", dependencies=[Depends(require_admin)])
 def delete_shoe(shoe_id: int):
     response = (
         supabase
